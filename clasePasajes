@@ -1,1 +1,26 @@
+public class Pasaje {
+    private int idPasaje;
+    private String horaLlegada;
+    private String horaSalida;
+    private String destinoFinal;
+    private int costoPasaje;
+    private int asiento;
+    private String fecha; 
+    
+    public Pasaje(int idPasaje, String horaLlegada, String horaSalida, 
+                  String destinoFinal, int costoPasaje, int asiento, String fecha) {
+        this.idPasaje = idPasaje;
+        this.horaLlegada = horaLlegada;
+        this.horaSalida = horaSalida;
+        this.destinoFinal = destinoFinal;
+        this.costoPasaje = costoPasaje;
+        this.asiento = asiento;
+        this.fecha = fecha;
+    }
 
+    
+    public int getIdPasaje() { return idPasaje; }
+    public void setIdPasaje(int idPasaje) { this.idPasaje = idPasaje; }
+
+    public String getHoraLlegada() { return horaLlegada; }
+    public void setHoraLlegada(String horaLlegada) { this.horaLlegada = horaLlegada; }
