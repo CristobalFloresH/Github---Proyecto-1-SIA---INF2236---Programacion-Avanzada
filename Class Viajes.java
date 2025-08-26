@@ -8,20 +8,26 @@ public class Viajes {
 	private String destinoFinal;
 	private String horaLlegada;
 	private String horaSalida;
+	private String fecha;
 	private ArrayList<String> listaPasajeros;
 	
     // Constructor
-    public Viajes(int viajeID, int costoViaje, String patente, String destinoFinal, String horaSalida, String horaLlegada) {
+    public Viajes(int viajeID, int costoViaje, String patente, String destinoFinal, String horaSalida, String horaLlegada, String fecha) {
         this.viajeID = viajeID;
         this.costoViaje = costoViaje;
         this.patente = patente;
         this.destinoFinal = destinoFinal;
         this.horaSalida = horaSalida;
         this.horaLlegada = horaLlegada;
+		this.fecha = fecha;
         this.listaPasajeros = new ArrayList<>();
     }
     
     // Getters
+	public String getFecha(){
+		return fecha;
+	}
+
     public int getViajeID() {
         return viajeID;
     }
@@ -51,6 +57,9 @@ public class Viajes {
     }
 
     // Setters
+	public void setFecha(String fecha){
+		this.fecha = fecha;
+	
     public void setViajeID(int viajeID) {
         this.viajeID = viajeID;
     }
