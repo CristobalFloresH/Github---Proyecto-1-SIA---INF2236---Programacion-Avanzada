@@ -44,6 +44,10 @@ public class persona{
     public void setSaldoDisponible(int saldoDisponible) {
         this.saldoDisponible = saldoDisponible;
     }
+    
+    public void comprarPasaje(viaje viaje, int asiento, String Fecha) {
+    	pasaje nuevo = new pasaje(viaje.getViajeID(), viaje.getHoraLlegada(), viaje.getHoraSalida(), viaje.getOrigen(), viaje.getDestinoFinal(), viaje.getCostoViaje(), asiento, Fecha);
+    	pasajes.add(nuevo);
+    }
 }
-
 
