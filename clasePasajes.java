@@ -1,6 +1,6 @@
-package Package;
+package primerProyectoJava;
 
-public class pasaje{
+public class Pasaje{
     private int idPasaje;
     private String horaLlegada;
     private String horaSalida;
@@ -9,7 +9,8 @@ public class pasaje{
     private int asiento;
     private String fecha; 
     
-    public pasaje(int idPasaje, String horaLlegada, String horaSalida, String destinoFinal, int costoPasaje, int asiento, String fecha) {
+    // Constructor
+    public Pasaje(int idPasaje, String horaLlegada, String horaSalida, String destinoFinal, int costoPasaje, int asiento, String fecha) {
         this.idPasaje = idPasaje;
         this.horaLlegada = horaLlegada;
         this.horaSalida = horaSalida;
@@ -19,21 +20,49 @@ public class pasaje{
         this.fecha = fecha;
     }
 
-    
-    public int getIdPasaje() { 
-    	return idPasaje; 
+    // Getters
+    public int getIdPasaje() {
+        return idPasaje;
     }
-    
-    public void setIdPasaje(int idPasaje) { 
-    	this.idPasaje = idPasaje; 
+    public String getHoraLlegada() {
+        return horaLlegada;
+    }
+    public String getHoraSalida() {
+        return horaSalida;
+    }
+    public String getDestinoFinal() {
+        return destinoFinal;
+    }
+    public int getCostoPasaje() {
+        return costoPasaje;
+    }
+    public int getAsiento() {
+        return asiento;
+    }
+    public String getFecha() {
+        return fecha;
     }
 
-    public String getHoraLlegada() { 
-    	return horaLlegada; 
+    // Setters
+    public void setIdPasaje(int idPasaje) {
+        this.idPasaje = idPasaje;
     }
-    
-    public void setHoraLlegada(String horaLlegada) { 
-    	this.horaLlegada = horaLlegada;
+    public void setHoraLlegada(String horaLlegada) {
+        this.horaLlegada = horaLlegada;
+    }
+    public void setHoraSalida(String horaSalida) {
+        this.horaSalida = horaSalida;
+    }
+    public void setDestinoFinal(String destinoFinal) {
+        this.destinoFinal = destinoFinal;
+    }
+    public void setCostoPasaje(int costoPasaje) {
+        this.costoPasaje = costoPasaje;
+    }
+    public void setAsiento(int asiento) {
+        this.asiento = asiento;
+    }
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
     }
 }
-    
