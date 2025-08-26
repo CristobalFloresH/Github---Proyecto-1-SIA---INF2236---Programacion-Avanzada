@@ -1,0 +1,283 @@
+package Package;
+
+public class Main {
+	public static void main(String[] args) {
+		
+		persona persona1 = new persona("Cristobal", "12345678-9", 25000);
+		persona persona2 = new persona("Diego", "98765432-1", 10000);
+		persona persona3 = new persona("Mauri", "11222333-4", 2000);
+		
+		bus bus1 = new bus(30, "HP*DS*20", 1, 1);
+		bus bus2 = new bus(45, "JK*TH*53", 2, 3);
+		bus bus3 = new bus(20, "LM*TG*90", 3, 2);
+		
+		viaje viaje1 = new viaje(25, 10000, bus1.getPatente(), "El Quisco", "Santiago", "10:30", "1:00");
+		viaje viaje2 = new viaje(40, 20000, bus2.getPatente(), "Santiago", "Quilpue", "8:30", "12:00");
+		viaje viaje3 = new viaje(15, 5000, bus3.getPatente(), "El Tabo", "San Antonio", "7:30", "8:00");
+		
+		persona1.anadirPasaje(viaje1, 12, "2025-08-30");
+		persona2.anadirPasaje(viaje2, 1, "2025-06-20");
+		persona3.anadirPasaje(viaje3, 19, "2025-07-12");
+
+	}
+
+}
+
+
+package Package;
+
+import java.util.ArrayList;
+
+public class persona{
+	private String nombre;
+	private String rut;
+	private ArrayList<pasaje> pasajes;
+	private int saldoDisponible;
+	
+
+	public persona(String nombre, String rut, int saldoDisponible) {
+        this.nombre = nombre;
+        this.rut = rut;
+        this.pasajes = new ArrayList<>();
+        this.saldoDisponible = saldoDisponible;
+	}
+	
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getRut() {
+        return rut;
+    }
+
+    public ArrayList<pasaje> getPasajes() {
+        return pasajes;
+    }
+
+    public int getSaldoDisponible() {
+        return saldoDisponible;
+    }
+    
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setRut(String rut) {
+        this.rut = rut;
+    }
+
+    public void setSaldoDisponible(int saldoDisponible) {
+        this.saldoDisponible = saldoDisponible;
+    }
+    
+    public void pasaje(viaje viaje, int asiento, String Fecha) {
+    	pasaje nuevo = new pasaje(viaje.getViajeID(), viaje.getHoraLlegada(), viaje.getHoraSalida(), viaje.getOrigen(), viaje.getDestinoFinal(), viaje.getCostoViaje(), asiento, Fecha);
+    	pasajes.add(nuevo);
+    }
+}
+
+package Package;
+
+public class pasaje{
+    private int viajeID;
+    private String horaLlegada;
+    private String horaSalida;
+    private String origen;
+    private String destinoFinal;
+    private int costoPasaje;
+    private int asiento;
+    private String fecha;
+    
+    public pasaje(int viajeID, String horaLlegada, String horaSalida, String origen, String destinoFinal, int costoPasaje, int asiento, String fecha) {
+        this.viajeID = viajeID;
+        this.horaLlegada = horaLlegada;
+        this.horaSalida = horaSalida;
+        this.origen = origen;
+        this.destinoFinal = destinoFinal;
+        this.costoPasaje = costoPasaje;
+        this.asiento = asiento;
+        this.fecha = fecha;
+    }
+
+    
+    public int getViajeID() { 
+    	return viajeID; 
+    }
+    
+    public void setIdPasaje(int viajeID) { 
+    	this.viajeID = viajeID; 
+    }
+
+    public String getHoraLlegada() { 
+    	return horaLlegada; 
+    }
+    
+    public void setHoraLlegada(String horaLlegada) { 
+    	this.horaLlegada = horaLlegada;
+    }
+}
+    
+
+package Package;
+
+import java.util.ArrayList;
+
+public class bus {
+    private int capacidad;
+    private String patente;
+    private int disponibilidad; 
+    private int tipo; 
+    private ArrayList<Integer> asientosUsados;
+
+    // Constructor
+    public bus(int capacidad, String patente, int disponibilidad, int tipo) {
+        this.patente = patente;
+        this.capacidad = capacidad;
+        this.disponibilidad = disponibilidad;
+        this.tipo = tipo;
+        this.asientosUsados = new ArrayList<>();
+    }
+
+    // --- Getters ---
+    public int getCapacidad() {
+        return capacidad;
+    }
+
+    public String getPatente() {
+        return patente;
+    }
+
+    public int getDisponibilidad() {
+        return disponibilidad;
+    }
+
+    public int getTipo() {
+        return tipo;
+    }
+
+    public ArrayList<Integer> getAsientosUsados() {
+        return asientosUsados;
+    }
+
+    // --- Setters ---
+    public void setCapacidad(int capacidad) {
+        this.capacidad = capacidad;
+    }
+
+    public void setPatente(String patente) {
+        this.patente = patente;
+    }
+
+    public void setDisponibilidad(int disponibilidad) {
+        this.disponibilidad = disponibilidad;
+    }
+
+    public void setTipo(int tipo) {
+        this.tipo = tipo;
+    }
+    
+    public boolean ocuparAsiento(int asiento) {
+        if (asiento < 1 || asiento > capacidad) {
+        	return false;   
+        }
+        
+        if (asientosUsados.contains(asiento)) {
+        	return false;    
+        }
+        
+        asientosUsados.add(asiento);
+        return true;
+    }
+}
+
+
+package Package;
+
+import java.util.ArrayList;
+
+public class viaje {
+	private int viajeID;
+	private int costoViaje;
+	private String patente; /*private Bus bus;*/
+	private String origen;
+	private String destinoFinal;
+	private String horaLlegada;
+	private String horaSalida;
+	private ArrayList<String> listaPasajeros;
+	
+    // Constructor
+    public viaje(int viajeID, int costoViaje, String patente, String origen,String destinoFinal, String horaSalida, String horaLlegada) {
+        this.viajeID = viajeID;
+        this.costoViaje = costoViaje;
+        this.patente = patente;
+        this.origen = origen;
+        this.destinoFinal = destinoFinal;
+        this.horaSalida = horaSalida;
+        this.horaLlegada = horaLlegada;
+        this.listaPasajeros = new ArrayList<>();
+    }
+    
+    // Getters
+    public int getViajeID() {
+        return viajeID;
+    }
+
+    public int getCostoViaje() {
+        return costoViaje;
+    }
+
+    public String getPatente() {
+        return patente;
+    }
+    
+    public String getOrigen() {
+		return origen;
+	}
+
+    public String getDestinoFinal() {
+        return destinoFinal;
+    }
+
+    public String getHoraSalida() {
+        return horaSalida;
+    }
+
+    public String getHoraLlegada() {
+        return horaLlegada;
+    }
+
+    public ArrayList<String> getListaPasajeros() {
+        return listaPasajeros;
+    }
+
+    // Setters
+    public void setViajeID(int viajeID) {
+        this.viajeID = viajeID;
+    }
+
+    public void setCostoViaje(int costoViaje) {
+        this.costoViaje = costoViaje;
+    }
+
+    public void setPatente(String patente) {
+        this.patente = patente;
+    }
+    
+    public void setOrigen(String origen) {
+		this.origen = origen;
+	}
+
+    public void setDestinoFinal(String destinoFinal) {
+        this.destinoFinal = destinoFinal;
+    }
+
+    public void setHoraSalida(String horaSalida) {
+        this.horaSalida = horaSalida;
+    }
+
+    public void setHoraLlegada(String horaLlegada) {
+        this.horaLlegada = horaLlegada;
+    }
+
+}
