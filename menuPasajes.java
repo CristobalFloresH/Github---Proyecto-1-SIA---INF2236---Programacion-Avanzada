@@ -8,7 +8,7 @@ int opcion = sc.nextInt();
 
 switch(opcion) {
     case 1:
-    mostrarPasajes(viajes);
+    mostrarPasajes(persona);
 	  break;
     case 2:
 	  agregarPasaje(persona, pasaje)			
