@@ -1,4 +1,6 @@
-public class Pasaje {
+package Package;
+
+public class pasaje{
     private int idPasaje;
     private String horaLlegada;
     private String horaSalida;
@@ -7,7 +9,7 @@ public class Pasaje {
     private int asiento;
     private String fecha; 
     
-    public Pasaje(int idPasaje, String horaLlegada, String horaSalida, String destinoFinal, int costoPasaje, int asiento, String fecha) {
+    public pasaje(int idPasaje, String horaLlegada, String horaSalida, String destinoFinal, int costoPasaje, int asiento, String fecha) {
         this.idPasaje = idPasaje;
         this.horaLlegada = horaLlegada;
         this.horaSalida = horaSalida;
@@ -18,8 +20,20 @@ public class Pasaje {
     }
 
     
-    public int getIdPasaje() { return idPasaje; }
-    public void setIdPasaje(int idPasaje) { this.idPasaje = idPasaje; }
+    public int getIdPasaje() { 
+    	return idPasaje; 
+    }
+    
+    public void setIdPasaje(int idPasaje) { 
+    	this.idPasaje = idPasaje; 
+    }
 
-    public String getHoraLlegada() { return horaLlegada; }
-    public void setHoraLlegada(String horaLlegada) { this.horaLlegada = horaLlegada; }
+    public String getHoraLlegada() { 
+    	return horaLlegada; 
+    }
+    
+    public void setHoraLlegada(String horaLlegada) { 
+    	this.horaLlegada = horaLlegada;
+    }
+}
+    
