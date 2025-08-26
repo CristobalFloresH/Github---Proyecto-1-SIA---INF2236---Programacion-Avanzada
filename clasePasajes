@@ -7,8 +7,7 @@ public class Pasaje {
     private int asiento;
     private String fecha; 
     
-    public Pasaje(int idPasaje, String horaLlegada, String horaSalida, 
-                  String destinoFinal, int costoPasaje, int asiento, String fecha) {
+    public Pasaje(int idPasaje, String horaLlegada, String horaSalida, String destinoFinal, int costoPasaje, int asiento, String fecha) {
         this.idPasaje = idPasaje;
         this.horaLlegada = horaLlegada;
         this.horaSalida = horaSalida;
