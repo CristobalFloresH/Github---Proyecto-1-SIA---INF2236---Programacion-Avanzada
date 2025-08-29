@@ -102,5 +102,29 @@ public class persona {
         return resultado;
     }
     
+    public void mostrarPasajes() {
+        System.out.println("Pasajes de " + nombre + " (" + rut + "):");
 
+        if (pasajes.size() == 0) {
+            System.out.println("No tiene pasajes.");
+            return;
+        }
+
+        int i = 0;
+        while (i < pasajes.size()) {
+            pasaje pasajeActual = pasajes.get(i);
+
+            System.out.println(
+                "ID: " + pasajeActual.getIdPasaje()
+                + " | Destino: " + pasajeActual.getDestinoFinal()
+                + " | Salida: " + pasajeActual.getHoraSalida()
+                + " | Llegada: " + pasajeActual.getHoraLlegada()
+                + " | Asiento: " + pasajeActual.getAsiento()
+                + " | Fecha: " + pasajeActual.getFecha()
+                + " | Costo: " + pasajeActual.getCostoPasaje()
+            );
+
+            i = i + 1;
+        }
+    }
 }
