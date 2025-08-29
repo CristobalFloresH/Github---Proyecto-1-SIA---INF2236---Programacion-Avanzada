@@ -1,49 +1,108 @@
-package primerProyectoJava;
+package Package;
 
-public class Bus{
-	  private int capacidad;
-	  private String patente;
-	  private String disponibilidad;
-	  private String tipo;
-	  private boolean[] asientosUsados;  
+import java.util.ArrayList;
 
-      //Contstructor
-	  public Bus(int capacidad, String patente,String disponibilidad, String tipo ){
-		  this.patente = patente;
-		  this.capacidad = capacidad;
-		  this.disponibilidad = disponibilidad;
-		  this.tipo = tipo;
-		  this.asientosUsados = new boolean[capacidad]; 
-	  }
-	  //Getter
-	  public String getPatente(){
-		  return patente;
-	  }
-	  public int getCapacidad(){
-		  return capacidad;
-	  }
-	  public String getDisponibilidad(){
-		  return disponibilidad;
-	  }
-	  public String getTipo(){
-		  return tipo;
-	  }
-	  public boolean[] getAsientosUsados(){
-		  return asientosUsados;
-	  }
-	  
-	  //Setter
-	  public void setPatente(String patente){
-		  this.patente = patente;
-      }
-	  public void setCapacidad(int capacidad){
-		  this.capacidad = capacidad;
-		  this.asientosUsados = new boolean[capacidad]; 
-      }
-	  public void setDisponibilidad(String disponibilidad){
-		  this.disponibilidad = disponibilidad;
-      }
-	  public void setTipo(String tipo) {
-		  this.tipo = tipo;
-      }
+public class bus {
+    private int capacidad;
+    private String patente;
+    private int disponibilidad;
+    private int tipo;
+    private ArrayList<Integer> asientosUsados;
+
+    public bus(int capacidad, String patente, int disponibilidad, int tipo) {
+        this.capacidad = capacidad;
+        this.patente = patente;
+        this.disponibilidad = disponibilidad;
+        this.tipo = tipo;
+        this.asientosUsados = new ArrayList<Integer>();
+    }
+
+    public int getCapacidad() {
+        return capacidad;
+    }
+
+    public void setCapacidad(int capacidad) {
+        this.capacidad = capacidad;
+    }
+
+    public String getPatente() {
+        return patente;
+    }
+
+    public void setPatente(String patente) {
+        this.patente = patente;
+    }
+
+    public int getDisponibilidad() {
+        return disponibilidad;
+    }
+
+    public void setDisponibilidad(int disponibilidad) {
+        this.disponibilidad = disponibilidad;
+    }
+
+    public int getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(int tipo) {
+        this.tipo = tipo;
+    }
+
+    public ArrayList<Integer> getAsientosUsados() {
+        return asientosUsados;
+    }
+
+    public void setAsientosUsados(ArrayList<Integer> asientosUsados) {
+        this.asientosUsados = asientosUsados;
+    }
+
+    public boolean asientoEnRango(int asiento) {
+        if (asiento >= 1 && asiento <= capacidad) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean asientoOcupado(int asiento) {
+        boolean ocupado = asientosUsados.contains(asiento);
+        return ocupado;
+    }
+
+    //un solo asiento
+    public boolean ocuparAsiento(int asiento) {
+        if (asientoEnRango(asiento) == false) {
+            return false;
+        }
+        if (asientoOcupado(asiento) == true) {
+            return false;
+        }
+        asientosUsados.add(asiento);
+        return true;
+    }
+
+    public boolean liberarAsiento(int asiento) {
+        boolean removido = asientosUsados.remove(Integer.valueOf(asiento));
+        return removido;
+    }
+
+    public ArrayList<Integer> revisarAsientosOcupados() {
+        return asientosUsados;
+    }
+
+    //varios
+    public int ocuparAsiento(int... asientos) {
+        int agregados = 0;
+        int indice = 0;
+        
+        while (indice < asientos.length) {
+            int asientoActual = asientos[indice];
+            
+            if (ocuparAsiento(asientoActual) == true) {
+                agregados = agregados + 1;
+            }
+            indice = indice + 1;
+        }
+        return agregados;
+    }   
 }
