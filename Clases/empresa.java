@@ -97,6 +97,11 @@ public class empresa {
         System.out.println("Ingrese su RUT: (Formato: 123456789-0)");
         String rutIngresado = br.readLine();
         
+        if (personasPorRut.containsKey(rutIngresado) == true) {
+            System.out.println("Ya existe una persona con ese RUT.");
+            return;
+        }
+        
         System.out.println("Ingrese su nombre: ");
         String nombreIngresado = br.readLine();
 
@@ -126,6 +131,42 @@ public class empresa {
         }
     }
     
+    public float obtenerGananciaViaje(viaje viajeRecibido) {
+    	
+    	float costoViajeParaEmpresa = viajeRecibido.getCostoParaEmpresa();
+    	float costoPorPasajero = viajeRecibido.getCostoViaje();
+    	float cantidadPasajeros = viajeRecibido.getCantidadPsajeros();
+    	
+    	return (float) (costoViajeParaEmpresa - (costoPorPasajero * cantidadPasajeros));
+    }
+    
+    public void obtenerGananciaTodosViajes() throws IOException {
+    	float gananciaTotal = 0;
+    	float cantidadViajes = 0;
+        for (viaje viajeActual : viajesPorId.values()) {
+        	gananciaTotal += this.obtenerGananciaViaje(viajeActual);
+        	cantidadViajes++;
+        }
+
+       System.out.println("+Turbus en " + cantidadViajes + "a generado una ganancia de " + gananciaTotal);
+    }
+    
+    public void mostrarBusesGananciaMayor(float umbral) throws IOException {
+    	
+    	System.out.println("Buses con ganancia mayor a " + umbral +":");
+    	String patenteActual;
+    	bus busActual;
+    	
+    	for (viaje viajeActual : viajesPorId.values()) {
+  
+    		if (this.obtenerGananciaViaje(viajeActual) > umbral) {
+    			patenteActual = viajeActual.getPatente();
+    			busActual = this.obtenerBusPorPatente(patenteActual);
+    			busActual.mostrarInformacion();
+    		}
+    	}
+    }
+    
     public void mostrarPasajesDePersonaPorRut() throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
@@ -142,144 +183,155 @@ public class empresa {
         personaEncontrada.mostrarPasajes();
     }
     
-    public void menuCompra() throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-        // 1) identificamos a la persona
-        System.out.println("Ingrese su RUT: ");
-        String rutIngresado = br.readLine();
-
-        persona personaCompradora = personasPorRut.get(rutIngresado);
-        if (personaCompradora == null) {
-            System.out.println("No existe persona con ese RUT. Regístrese primero.");
-            return;
-        }
-
-        // 2) creamos una lista que tenga los destinos unicos
-        ArrayList<viaje> listaViajes = new ArrayList<viaje>();
-        Collection<viaje> valores = viajesPorId.values();
-        for (viaje viajeActual : valores) {
-            listaViajes.add(viajeActual);
-        }
-
+    public ArrayList<String> obtenerDestinosUnicos() {
         ArrayList<String> destinosUnicos = new ArrayList<String>();
-        int i = 0;
-        while (i < listaViajes.size()) {
-            viaje viajeActual = listaViajes.get(i);
+
+        for (viaje viajeActual : viajesPorId.values()) { //segun google esto es como un "por cada"
+        	
             String destino = viajeActual.getDestinoFinal();
+            
             if (destinosUnicos.contains(destino) == false) {
                 destinosUnicos.add(destino);
             }
-            i = i + 1;
         }
 
-        if (destinosUnicos.size() == 0) {
-            System.out.println("No hay viajes disponibles.");
-            return;
-        }
+        return destinosUnicos;
+    }
+    
+	 public ArrayList<viaje> obtenerViajesPorDestino(String destino) {
+	    ArrayList<viaje> viajesDelDestino = new ArrayList<viaje>();
 
-        // 3) mostramos estos destinos y nos aseguramos que no se salga de rango
-        System.out.println("Ingrese el destino:");
-        int j = 0;
-        while (j < destinosUnicos.size()) {
-            System.out.println((j + 1) + ". " + destinosUnicos.get(j));
-            j = j + 1;
-        }
-
-        int opcionDestino = Integer.parseInt(br.readLine());
-        if (opcionDestino < 1 || opcionDestino > destinosUnicos.size()) {
-            System.out.println("Opción de destino inválida.");
-            return;
-        }
-        String destinoElegido = destinosUnicos.get(opcionDestino - 1);
-
-        // 4) filtramos por ese destino y mostramos
-        ArrayList<viaje> viajesDelDestino = new ArrayList<viaje>();
-        int k = 0;
-        while (k < listaViajes.size()) {
-            viaje viajeActual = listaViajes.get(k);
-            if (viajeActual.getDestinoFinal().equals(destinoElegido) == true) {
+        for (viaje viajeActual : viajesPorId.values()) {
+        	
+            if (viajeActual.getDestinoFinal().equals(destino) == true) {
+            	
                 viajesDelDestino.add(viajeActual);
             }
-            k = k + 1;
         }
 
-        if (viajesDelDestino.size() == 0) {
-            System.out.println("No hay viajes para ese destino.");
-            return;
-        }
-
-        System.out.println("Ingrese el viaje según su horario de salida:");
-        int h = 0;
-        while (h < viajesDelDestino.size()) {
-            viaje viajeActual = viajesDelDestino.get(h);
-            System.out.println(
-                (h + 1) + ". " +
-                "Salida: " + viajeActual.getHoraSalida() +
-                " | Llegada: " + viajeActual.getHoraLlegada() +
-                " | Costo: " + viajeActual.getCostoViaje() +
-                " | Patente bus: " + viajeActual.getPatente()
-            );
-            h = h + 1;
-        }
-
-        int opcionViaje = Integer.parseInt(br.readLine());
-        if (opcionViaje < 1 || opcionViaje > viajesDelDestino.size()) {
-            System.out.println("Opción de viaje inválida.");
-            return;
-        }
-        viaje viajeElegido = viajesDelDestino.get(opcionViaje - 1);
-
-        // 5) obtenemos informacion del bus del viaje y mostramos los asientos disponibles
-        bus busDelViaje = busPorPatente.get(viajeElegido.getPatente());
-
-        System.out.println("Asientos disponibles:");
-        ArrayList<Integer> asientosDisponibles = new ArrayList<Integer>();
-        int asientoCandidato = 1;
-        while (asientoCandidato <= busDelViaje.getCapacidad()) {
-            if (busDelViaje.asientoOcupado(asientoCandidato) == false) {
-                asientosDisponibles.add(asientoCandidato);
-            }
-            asientoCandidato = asientoCandidato + 1;
-        }
-
-        if (asientosDisponibles.size() == 0) {
-            System.out.println("No quedan asientos disponibles en este bus.");
-            return;
-        }
-
-        int t = 0;
-        while (t < asientosDisponibles.size()) {
-            System.out.print(asientosDisponibles.get(t) + " ");
-            t = t + 1;
-        }
-        System.out.println("");
-        //5.5) usamos funciones para asegurarnos que el asiento sea valido
-        System.out.println("Ingrese el asiento que desea:");
-        int asientoElegido = Integer.parseInt(br.readLine());
-
-        if (busDelViaje.asientoEnRango(asientoElegido) == false) {
-            System.out.println("Asiento fuera de rango.");
-            return;
-        }
-        if (busDelViaje.asientoOcupado(asientoElegido) == true) {
-            System.out.println("Asiento ocupado. Intente con otro.");
-            return;
-        }
-
-        // 6) preguntamos la fecha
-        System.out.println("Ingrese la fecha del viaje (YYYY-MM-DD):");
-        String fechaElegida = br.readLine();
-
-        // 7) preico
-        int precioTotal = viajeElegido.getCostoViaje();
-        System.out.println("Precio total del viaje: " + precioTotal);
-
-        // 8) compramos
-        if (personaCompradora.comprarPasaje(viajeElegido, busDelViaje, asientoElegido, fechaElegida) == true) {
-            System.out.println("Compra realizada con éxito.");
-        } else {
-            System.out.println("No se pudo realizar la compra.");
-        }
+        return viajesDelDestino;
     }
+    
+	 public void menuCompra() throws IOException {
+		    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+		    // 1) identificar persona
+		    System.out.println("Ingrese su RUT: ");
+		    String rutIngresado = br.readLine();
+
+		    persona personaCompradora = personasPorRut.get(rutIngresado);
+		    if (personaCompradora == null) {
+		        System.out.println("No existe persona con ese RUT. Regístrese primero.");
+		        return;
+		    }
+
+		    // 2) destinos únicos 
+		    ArrayList<String> destinosUnicos = obtenerDestinosUnicos();
+		    if (destinosUnicos.size() == 0) {
+		        System.out.println("No hay viajes disponibles.");
+		        return;
+		    }
+
+		    System.out.println("Ingrese el destino:");
+		    int i = 0;
+		    while (i < destinosUnicos.size()) {
+		        System.out.println((i + 1) + ". " + destinosUnicos.get(i));
+		        i = i + 1;
+		    }
+
+		    int opcionDestino = Integer.parseInt(br.readLine());
+		    if (opcionDestino < 1 || opcionDestino > destinosUnicos.size()) {
+		        System.out.println("Opción de destino inválida.");
+		        return;
+		    }
+		    String destinoElegido = destinosUnicos.get(opcionDestino - 1);
+
+		    // 3) viajes por destino 
+		    ArrayList<viaje> viajesDelDestino = obtenerViajesPorDestino(destinoElegido);
+		    if (viajesDelDestino.size() == 0) {
+		        System.out.println("No hay viajes para ese destino.");
+		        return;
+		    }
+
+		    System.out.println("Ingrese el viaje según su horario de salida:");
+		    int j = 0;
+		    while (j < viajesDelDestino.size()) {
+		        viaje viajeActual = viajesDelDestino.get(j);
+		        System.out.println(
+		            (j + 1) + ". " +
+		            "Salida: " + viajeActual.getHoraSalida() +
+		            " | Llegada: " + viajeActual.getHoraLlegada() +
+		            " | Costo: " + viajeActual.getCostoViaje() +
+		            " | Patente bus: " + viajeActual.getPatente()
+		        );
+		        j = j + 1;
+		    }
+
+		    int opcionViaje = Integer.parseInt(br.readLine());
+		    if (opcionViaje < 1 || opcionViaje > viajesDelDestino.size()) {
+		        System.out.println("Opción de viaje inválida.");
+		        return;
+		    }
+		    viaje viajeElegido = viajesDelDestino.get(opcionViaje - 1);
+
+		    // 4) bus y asientos disponibles
+		    bus busDelViaje = busPorPatente.get(viajeElegido.getPatente());
+		    if (busDelViaje == null) {
+		        System.out.println("No se encontró el bus para este viaje.");
+		        return;
+		    }
+
+		    System.out.println("Asientos disponibles:");
+		    ArrayList<Integer> asientosDisponibles = new ArrayList<Integer>();
+		    int asientoCandidato = 1;
+		    while (asientoCandidato <= busDelViaje.getCapacidad()) {
+		        if (busDelViaje.asientoOcupado(asientoCandidato) == false) {
+		            asientosDisponibles.add(asientoCandidato);
+		        }
+		        asientoCandidato = asientoCandidato + 1;
+		    }
+
+		    if (asientosDisponibles.size() == 0) {
+		        System.out.println("No quedan asientos disponibles en este bus.");
+		        return;
+		    }
+
+		    int t = 0;
+		    while (t < asientosDisponibles.size()) {
+		        System.out.print(asientosDisponibles.get(t) + " ");
+		        t = t + 1;
+		    }
+		    System.out.println("");
+
+		    System.out.println("Ingrese el asiento que desea:");
+		    int asientoElegido = Integer.parseInt(br.readLine());
+
+		    if (busDelViaje.asientoEnRango(asientoElegido) == false) {
+		        System.out.println("Asiento fuera de rango.");
+		        return;
+		    }
+		    if (asientosDisponibles.contains(asientoElegido) == false) {
+		        System.out.println("Ese asiento no está disponible.");
+		        return;
+		    }
+
+		    // 5) fecha y precio
+		    System.out.println("Ingrese la fecha del viaje (YYYY-MM-DD):");
+		    String fechaElegida = br.readLine();
+		    
+		    if (fechaElegida != null && fechaElegida.isBlank()) {
+		    	fechaElegida = null;
+		    }
+
+		    int precioTotal = viajeElegido.getCostoViaje();
+		    System.out.println("Precio total del viaje: " + precioTotal);
+
+		    // 6) comprar
+		    boolean compraOk = personaCompradora.comprarPasaje(viajeElegido, busDelViaje, asientoElegido, fechaElegida);
+		    if (compraOk == true) {
+		        System.out.println("Compra realizada con éxito.");
+		    } else {
+		        System.out.println("No se pudo realizar la compra.");
+		    }
+		}
 }
