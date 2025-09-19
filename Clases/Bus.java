@@ -105,4 +105,15 @@ public class bus {
         }
         return agregados;
     }   
+
+	public void mostrarInformacion() {
+	    System.out.println("---------------------------------");
+	    System.out.println("Información bus con patente: " + patente);
+	    System.out.println("");
+	    System.out.println("Capacidad: " + capacidad);
+	    System.out.println("Disponibilidad: " + disponibilidad);
+	    System.out.println("Tipo: " + tipo);
+	    System.out.println("Asientos Ocupados: " + asientosUsados);
+	    System.out.println("---------------------------------");
+	}
 }
