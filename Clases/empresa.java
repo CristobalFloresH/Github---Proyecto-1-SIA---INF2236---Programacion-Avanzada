@@ -13,7 +13,7 @@ public class empresa {
     public empresa() {
         this.busPorPatente = new HashMap<String, bus>();
         this.viajesPorId = new HashMap<Integer, viaje>();
-        this.personasPorRut = new HashMap<String, persona>();
+        this.setPersonasPorRut(new HashMap<String, persona>());
     }
 
     public void registrarBus(bus busNuevo) {
@@ -25,7 +25,7 @@ public class empresa {
     }
     
     public void registrarPersona(persona personaNueva) {
-    	personasPorRut.put(personaNueva.getRut(), personaNueva);
+    	getPersonasPorRut().put(personaNueva.getRut(), personaNueva);
     }
 
     public bus obtenerBusPorPatente(String patente) {
@@ -37,7 +37,7 @@ public class empresa {
     }
     
     public persona obtenerPersonaPorRut(String rut) {
-        return personasPorRut.get(rut);
+        return getPersonasPorRut().get(rut);
     }
     
     public void menuPrincipal() throws IOException {
@@ -97,7 +97,7 @@ public class empresa {
         System.out.println("Ingrese su RUT: (Formato: 123456789-0)");
         String rutIngresado = br.readLine();
         
-        if (personasPorRut.containsKey(rutIngresado) == true) {
+        if (getPersonasPorRut().containsKey(rutIngresado) == true) {
             System.out.println("Ya existe una persona con ese RUT.");
             return;
         }
@@ -114,7 +114,7 @@ public class empresa {
     }
 
     public void mostrarPersonas() {
-        if (personasPorRut.isEmpty()) {
+        if (getPersonasPorRut().isEmpty()) {
             System.out.println("No hay personas registradas.");
             return;
         }
@@ -122,7 +122,7 @@ public class empresa {
         System.out.println("Personas registradas en la empresa:");
         System.out.println("-----------------------------------");
 
-        for (persona personaActual : personasPorRut.values()) {
+        for (persona personaActual : getPersonasPorRut().values()) {
             System.out.println(
                 "Nombre: " + personaActual.getNombre()
                 + " | RUT: " + personaActual.getRut()
@@ -173,7 +173,7 @@ public class empresa {
         System.out.println("Ingrese el RUT de la persona: ");
         String rutIngresado = reader.readLine();
 
-        persona personaEncontrada = personasPorRut.get(rutIngresado);
+        persona personaEncontrada = getPersonasPorRut().get(rutIngresado);
 
         if (personaEncontrada == null) {
             System.out.println("No existe persona con ese RUT.");
@@ -212,6 +212,14 @@ public class empresa {
         return viajesDelDestino;
     }
     
+	 public Map<String, persona> getPersonasPorRut() {
+		return personasPorRut;
+	}
+
+	 public void setPersonasPorRut(Map<String, persona> personasPorRut) {
+		this.personasPorRut = personasPorRut;
+	 }
+
 	 public void menuCompra() throws IOException {
 		    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
@@ -219,7 +227,7 @@ public class empresa {
 		    System.out.println("Ingrese su RUT: ");
 		    String rutIngresado = br.readLine();
 
-		    persona personaCompradora = personasPorRut.get(rutIngresado);
+		    persona personaCompradora = getPersonasPorRut().get(rutIngresado);
 		    if (personaCompradora == null) {
 		        System.out.println("No existe persona con ese RUT. Regístrese primero.");
 		        return;
