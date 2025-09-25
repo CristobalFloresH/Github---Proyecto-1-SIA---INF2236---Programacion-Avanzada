@@ -2,9 +2,9 @@ package Package;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
+//import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.awt.event.ActionEvent;
+//import java.awt.event.ActionEvent;
 
 public class miVentana extends JFrame {
 
@@ -211,10 +211,10 @@ public class miVentana extends JFrame {
         btnMostrarUsuarios.addActionListener(e2 -> {
             listaUsuariosPanel.removeAll();
 
-            if (miEmpresa.getPersonas().isEmpty()) {
+            if (miEmpresa.getPersonasPorRut().isEmpty()) {
                 listaUsuariosPanel.add(new JLabel("No hay personas registradas."));
             } else {
-                for (persona p : miEmpresa.getPersonas().values()) {
+                for (persona p : miEmpresa.getPersonasPorRut().values()) {
                     JLabel label = new JLabel(
                         "Nombre: " + p.getNombre() +
                         " | RUT: " + p.getRut() +
@@ -261,14 +261,16 @@ public class miVentana extends JFrame {
             }
 
             // Obtener destinos únicos
-            ArrayList<viaje> listaViajes = new ArrayList<>(miEmpresa.getViajes().values());
+            /*ArrayList<viaje> listaViajes = miEmpresa.obtenerDestinosUnicos();
             ArrayList<String> destinosUnicos = new ArrayList<>();
             for (viaje v : listaViajes) {
                 if (!destinosUnicos.contains(v.getDestinoFinal())) {
                     destinosUnicos.add(v.getDestinoFinal());
                 }
-            }
+            }*/
 
+            ArrayList<String> destinosUnicos = miEmpresa.obtenerDestinosUnicos();
+            
             if (destinosUnicos.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "No hay viajes disponibles.");
                 return;
@@ -288,13 +290,15 @@ public class miVentana extends JFrame {
 
             if (destinoElegido == null) return; 
 
-            // Filtrar viajes por destino
+            /* Filtrar viajes por destino
             ArrayList<viaje> viajesDelDestino = new ArrayList<>();
             for (viaje v : listaViajes) {
                 if (v.getDestinoFinal().equals(destinoElegido)) {
                     viajesDelDestino.add(v);
                 }
-            }
+            }*/
+            
+            ArrayList<viaje> viajesDelDestino = miEmpresa.obtenerViajesPorDestino(destinoElegido);
 
             if (viajesDelDestino.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "No hay viajes para ese destino.");
