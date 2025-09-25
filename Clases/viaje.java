@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class viaje {
     private int viajeID;
     private int costoViaje;
+    private int costoParaEmpresa;
     private String patente;
     private String origen;
     private String destinoFinal;
@@ -12,9 +13,10 @@ public class viaje {
     private String horaLlegada;
     private ArrayList<String> listaPasajeros;
 
-    public viaje(int viajeID, int costoViaje, String patente, String origen, String destinoFinal, String horaSalida, String horaLlegada) {
+    public viaje(int viajeID, int costoViaje,int costoParaEmpresa, String patente, String origen, String destinoFinal, String horaSalida, String horaLlegada) {
         this.viajeID = viajeID;
         this.costoViaje = costoViaje;
+        this.setCostoParaEmpresa(costoParaEmpresa);
         this.patente = patente;
         this.origen = origen;
         this.destinoFinal = destinoFinal;
@@ -83,11 +85,23 @@ public class viaje {
         return listaPasajeros;
     }
 
-    public void setListaPasajeros(ArrayList<String> listaPasajeros) {
+    public int getCostoParaEmpresa() {
+		return costoParaEmpresa;
+	}
+
+	public void setCostoParaEmpresa(int costoParaEmpresa) {
+		this.costoParaEmpresa = costoParaEmpresa;
+	}
+
+	public void setListaPasajeros(ArrayList<String> listaPasajeros) {
         this.listaPasajeros = listaPasajeros;
     }
 
     public void agregarPasajero(String rutPasajero) {
         listaPasajeros.add(rutPasajero);
+    }
+    
+    public int getCantidadPasajeros() {
+    	return listaPasajeros.size();
     }
 }
