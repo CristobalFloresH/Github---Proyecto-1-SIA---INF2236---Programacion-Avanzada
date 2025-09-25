@@ -135,7 +135,7 @@ public class empresa {
     	
     	float costoViajeParaEmpresa = viajeRecibido.getCostoParaEmpresa();
     	float costoPorPasajero = viajeRecibido.getCostoViaje();
-    	float cantidadPasajeros = viajeRecibido.getCantidadPsajeros();
+    	float cantidadPasajeros = viajeRecibido.getCantidadPasajeros();
     	
     	return (float) (costoViajeParaEmpresa - (costoPorPasajero * cantidadPasajeros));
     }
