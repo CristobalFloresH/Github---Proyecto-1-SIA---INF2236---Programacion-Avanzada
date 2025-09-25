@@ -72,6 +72,10 @@ public class persona {
         if (busDelViaje.asientoOcupado(asiento) == true) {
             return false;
         }
+        
+        if (fecha == null) {
+        	fecha = LocalDate.now().toString();
+        }
 
         if (puedePagar(viajeActual.getCostoViaje()) == false) {
             return false;
@@ -115,7 +119,7 @@ public class persona {
             pasaje pasajeActual = pasajes.get(i);
 
             System.out.println(
-                "ID: " + pasajeActual.getIdPasaje()
+                "Pasaje con ID: " + pasajeActual.getIdPasaje()
                 + " | Destino: " + pasajeActual.getDestinoFinal()
                 + " | Salida: " + pasajeActual.getHoraSalida()
                 + " | Llegada: " + pasajeActual.getHoraLlegada()
