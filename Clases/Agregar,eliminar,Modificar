@@ -1,1 +1,89 @@
+public void agregarBus(Bus bus) {
+        if (buses.containsKey(bus.getId())) {
+            System.out.println("Ya existe un bus con patente " + bus.getPatente());
+        } else {
+            buses.put(bus.getPatente(), bus);
+            System.out.println("Bus con patente:"+ bus.getPetente() +"agregado ");
+        }
+    }
 
+public boolean eliminarBus(string patente) {
+        Bus eliminado = buses.remove(patente);
+        if (eliminado != null) {
+            System.out.println("Bus con patente:" + patente "eliminado");
+            return true;
+        } else {
+            System.out.println("No se encontró un bus con patente " + patente);
+            return false;
+        }
+    }
+
+public void agregarViaje(Viaje viajeId) {
+        if (viajes.containsKey(viaje.getId())) {
+            System.out.println("Ya existe un viaje con id " + viaje.getId());
+        } else {
+            viajes.put(viaje.getId(), viaje);
+            System.out.println("Viaje agregado: " + viaje.getId());
+        }
+    }
+   
+
+public boolean eliminarViaje(int viajeId) {
+        Viaje eliminado = viajes.remove(viajeId);
+        if (eliminado != null) {
+            System.out.println("Viaje eliminado: " + viajeId);
+            return true;
+        } else {
+            System.out.println("No se encontró un viaje con id " + viajeId);
+            return false;
+        }
+    }
+   
+ public void modificarViaje(int id, int nuevoCosto, String nuevaPatente,
+                               String nuevoOrigen, String nuevoDestino,
+                               String nuevaSalida, String nuevaLlegada) {
+        Viaje viaje = viajes.get(id);
+        if (viaje != null) {
+            viaje.setCostoViaje(nuevoCosto);
+            viaje.setPatente(nuevaPatente);
+            viaje.setOrigen(nuevoOrigen);
+            viaje.setDestinoFinal(nuevoDestino);
+            viaje.setHoraSalida(nuevaSalida);
+            viaje.setHoraLlegada(nuevaLlegada);
+            System.out.println("Viaje modificado: " + id);
+        } else {
+            System.out.println("No se encontró un viaje con ID " + id);
+        }
+    }
+
+}
+
+public void agregarPersona(Persona persona) {
+        if (personas.containsKey(persona.getRut())) {
+            System.out.println("Ya existe una persona con ese RUT.");
+        } else {
+            personas.put(persona.getRut(), persona);
+            System.out.println("Persona agregada: " + persona.getRut);
+        }
+    }
+
+public boolean eliminarPersona(String rut) {
+        Persona eliminada = personas.remove(rut);
+        if (eliminada != null) {
+            System.out.println("Persona eliminada: " + rut);
+            return true;
+        } else {
+            System.out.println("No se encontró persona con ese RUT.");
+            return false;
+        }
+    }
+public void modificarPersona(String rut, String nuevoNombre, int nuevoSaldo) {
+        Persona persona = personas.get(rut);
+        if (persona != null) {
+            persona.setNombre(nuevoNombre);
+            persona.setSaldoDisponible(nuevoSaldo);
+            System.out.println("Persona modificada: " + persona);
+        } else {
+            System.out.println("No se encontró persona con ese RUT.");
+        }
+    }
