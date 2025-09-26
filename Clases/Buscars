@@ -7,3 +7,12 @@ public Pasaje buscarPasaje(int idPasaje) {
     }
     return null; 
 }
+
+public boolean buscarPasajero(String rut) {
+    for (int i = 0; i < listaPasajeros.size(); i++) {
+        if (listaPasajeros.get(i).equals(rut)) {
+            return true; 
+        }
+    }
+    return false; 
+}
