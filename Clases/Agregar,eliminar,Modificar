@@ -1,9 +1,9 @@
 public void agregarBus(Bus bus) {
-        if (buses.containsKey(bus.getId())) {
+        if (buses.containsKey(bus.getPatente())) {
             System.out.println("Ya existe un bus con patente " + bus.getPatente());
         } else {
             buses.put(bus.getPatente(), bus);
-            System.out.println("Bus con patente:"+ bus.getPetente() +"agregado ");
+            System.out.println("Bus con patente:"+ bus.getPatente() +"agregado ");
         }
     }
 
