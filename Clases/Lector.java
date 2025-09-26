@@ -66,3 +66,60 @@ public static void main(String[] args) {
         }
     }
 }
+
+
+
+
+public Map<Integer, Viaje> cargarViajesDesdeTxt(String rutaArchivo) {
+        Map<Integer, Viaje> mapaViajes = new HashMap<>();
+        Path archivoPath = Paths.get(rutaArchivo);
+
+        try {
+            List<String> lineas = Files.readAllLines(archivoPath);
+
+            for (String linea : lineas) {
+                try (Scanner scanner = new Scanner(linea).useDelimiter(",")) {
+                    int viajeID = scanner.nextInt();
+                    int costoViaje = scanner.nextInt();
+                    int costoParaEmpresa = scanner.nextInt();
+                    String patente = scanner.next().trim();
+                    String origen = scanner.next().trim();
+                    String destinoFinal = scanner.next().trim();
+                    String horaSalida = scanner.next().trim();
+                    String horaLlegada = scanner.next().trim();
+
+                    ArrayList<String> listaPasajeros = new ArrayList<>();
+                    while (scanner.hasNext()) {
+                        listaPasajeros.add(scanner.next().trim());
+                    }
+
+                    Viaje viaje = new Viaje(viajeID, costoViaje, costoParaEmpresa,
+                                            patente, origen, destinoFinal,
+                                            horaSalida, horaLlegada, listaPasajeros);
+
+                    mapaViajes.put(viajeID, viaje);
+
+                } catch (Exception e) {
+                    System.err.println("Error al parsear la línea: '" + linea + "'. Detalles: " + e.getMessage());
+                }
+            }
+
+        } catch (IOException e) {
+            System.err.println("ERROR: No se pudo leer el archivo en la ruta: " + rutaArchivo);
+            e.printStackTrace();
+        }
+
+        return mapaViajes;
+    }
+
+    // Main de prueba
+    public static void main(String[] args) {
+        Lector lector = new Lector();
+        Map<Integer, Viaje> mapaViajes = lector.cargarViajesDesdeTxt("viajes.txt");
+
+        System.out.println("Viajes cargados exitosamente");
+        for (Viaje v : mapaViajes.values()) {
+            System.out.println(v);
+        }
+    }
+}
