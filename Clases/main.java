@@ -40,6 +40,7 @@ public class Main {
         bus busDeViaje3 = empresaBuses.obtenerBusPorPatente(viaje3.getPatente());
         persona3.comprarPasaje(viaje3, busDeViaje3, 19, "2025-07-12");
 
-        empresaBuses.menuPrincipal();
+        miVentana frame = new miVentana(empresaBuses);
+        frame.setVisible(true);
     }
 }
