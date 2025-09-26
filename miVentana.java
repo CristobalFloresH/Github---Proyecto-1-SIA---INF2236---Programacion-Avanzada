@@ -19,9 +19,8 @@ public class miVentana extends JFrame {
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
             try {
-                empresa miEmp = new empresa();
-                miVentana frame = new miVentana(miEmp);
-                frame.setVisible(true);
+            	//Aqui se ejecuta la clase main para iniciar la empresa con los datos ya cargados
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -44,32 +43,32 @@ public class miVentana extends JFrame {
         panelMenu.setBackground(Color.WHITE);
 
         JButton btnRegistro = new JButton("1. Registrarse");
-        btnRegistro.setBackground(Color.LIGHT_GRAY);
+        btnRegistro.setBackground(new Color(240, 240, 240));
         btnRegistro.setBounds(49, 320, 177, 23);
         panelMenu.add(btnRegistro);
 
         JButton btnComprar = new JButton("2. Comprar pasajes");
-        btnComprar.setBackground(Color.LIGHT_GRAY);
+        btnComprar.setBackground(new Color(240, 240, 240));
         btnComprar.setBounds(49, 354, 177, 23);
         panelMenu.add(btnComprar);
 
         JButton btnCancelar = new JButton("3. Cancelar pasaje");
-        btnCancelar.setBackground(Color.LIGHT_GRAY);
+        btnCancelar.setBackground(new Color(240, 240, 240));
         btnCancelar.setBounds(49, 388, 177, 23);
         panelMenu.add(btnCancelar);
 
         JButton btnMostrarPasajes = new JButton("4. Mostrar pasajes");
-        btnMostrarPasajes.setBackground(Color.LIGHT_GRAY);
+        btnMostrarPasajes.setBackground(new Color(240, 240, 240));
         btnMostrarPasajes.setBounds(49, 422, 177, 23);
         panelMenu.add(btnMostrarPasajes);
 
         JButton btnMostrarUsuarios = new JButton("5. Mostrar usuarios");
-        btnMostrarUsuarios.setBackground(Color.LIGHT_GRAY);
+        btnMostrarUsuarios.setBackground(new Color(240, 240, 240));
         btnMostrarUsuarios.setBounds(49, 456, 177, 23);
         panelMenu.add(btnMostrarUsuarios);
 
         JButton btnSalir = new JButton("0. Salir");
-        btnSalir.setBackground(Color.LIGHT_GRAY);
+        btnSalir.setBackground(new Color(240, 240, 240));
         btnSalir.setBounds(49, 490, 89, 23);
         panelMenu.add(btnSalir);
 
@@ -259,16 +258,6 @@ public class miVentana extends JFrame {
                 JOptionPane.showMessageDialog(null, "No existe persona con ese RUT. Regístrese primero.");
                 return;
             }
-
-            // Obtener destinos únicos
-            /*ArrayList<viaje> listaViajes = miEmpresa.obtenerDestinosUnicos();
-            ArrayList<String> destinosUnicos = new ArrayList<>();
-            for (viaje v : listaViajes) {
-                if (!destinosUnicos.contains(v.getDestinoFinal())) {
-                    destinosUnicos.add(v.getDestinoFinal());
-                }
-            }*/
-
             ArrayList<String> destinosUnicos = miEmpresa.obtenerDestinosUnicos();
             
             if (destinosUnicos.isEmpty()) {
@@ -289,14 +278,6 @@ public class miVentana extends JFrame {
             );
 
             if (destinoElegido == null) return; 
-
-            /* Filtrar viajes por destino
-            ArrayList<viaje> viajesDelDestino = new ArrayList<>();
-            for (viaje v : listaViajes) {
-                if (v.getDestinoFinal().equals(destinoElegido)) {
-                    viajesDelDestino.add(v);
-                }
-            }*/
             
             ArrayList<viaje> viajesDelDestino = miEmpresa.obtenerViajesPorDestino(destinoElegido);
 
