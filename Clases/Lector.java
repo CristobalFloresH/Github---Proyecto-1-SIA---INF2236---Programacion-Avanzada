@@ -58,7 +58,7 @@ public class Lector {
 /// main prueba 
 public static void main(String[] args) {
         Lector lector = new Lector();
-        // "buses.txt" debe estar en el directorio raíz del proyecto
+        // "buses.txt" debe estar en el directorio raíz del proyecto ***importantisimo 
         Map<String, Bus> miMapaBuses = lector.cargarBusesDesdeTxt("buses.txt"); 
         System.out.println("\n--- Buses cargados exitosamente ---");
         for (Bus bus : miMapaBuses.values()) {
