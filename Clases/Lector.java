@@ -123,3 +123,60 @@ public Map<Integer, Viaje> cargarViajesDesdeTxt(String rutaArchivo) {
         }
     }
 }
+
+ public Map<String, Persona> cargarPersonasDesdeTxt(String rutaArchivo) {
+        Map<String, Persona> mapaPersonas = new HashMap<>();
+        Path archivoPath = Paths.get(rutaArchivo);
+
+        try {
+            List<String> lineas = Files.readAllLines(archivoPath);
+
+            for (String linea : lineas) {
+                try (Scanner scanner = new Scanner(linea).useDelimiter(",")) {
+                    String nombre = scanner.next().trim();
+                    String rut = scanner.next().trim();
+                    int saldoDisponible = scanner.nextInt();
+
+                    ArrayList<Pasaje> pasajes = new ArrayList<>();
+                    // Cada pasaje ocupa 7 campos: id, horaLlegada, horaSalida, destino, costo, asiento, fecha
+                    while (scanner.hasNext()) {
+                        int idPasaje = scanner.nextInt();
+                        String horaLlegada = scanner.next().trim();
+                        String horaSalida = scanner.next().trim();
+                        String destinoFinal = scanner.next().trim();
+                        int costoPasaje = scanner.nextInt();
+                        int asiento = scanner.nextInt();
+                        String fecha = scanner.next().trim();
+
+                        Pasaje pasaje = new Pasaje(idPasaje, horaLlegada, horaSalida,
+                                                   destinoFinal, costoPasaje, asiento, fecha);
+                        pasajes.add(pasaje);
+                    }
+
+                    Persona persona = new Persona(nombre, rut, pasajes, saldoDisponible);
+                    mapaPersonas.put(rut, persona);
+
+                } catch (Exception e) {
+                    System.err.println("Error al parsear la línea: '" + linea + "'. Detalles: " + e.getMessage());
+                }
+            }
+
+        } catch (IOException e) {
+            System.err.println("ERROR: No se pudo leer el archivo en la ruta: " + rutaArchivo);
+            e.printStackTrace();
+        }
+
+        return mapaPersonas;
+    }
+
+    // Main de prueba
+    public static void main(String[] args) {
+        Lector lector = new Lector();
+        Map<String, Persona> mapaPersonas = lector.cargarPersonasDesdeTxt("personas.txt");
+
+        System.out.println("\n--- Personas cargadas exitosamente ---");
+        for (Persona p : mapaPersonas.values()) {
+            System.out.println(p);
+        }
+    }
+}
