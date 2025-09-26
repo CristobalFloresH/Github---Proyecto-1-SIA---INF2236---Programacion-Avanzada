@@ -6,7 +6,6 @@ public class viajeNoDirecto extends viaje {
         super(viajeID, costoViaje, costoParaEmpresa, patente, origen, destinoFinal, horaSalida, horaLlegada);
     }
 
-    @Override
     public void mostrarInformacionViajeCompleta() {
         super.mostrarInformacionViajeCompleta();
         System.out.println("Tipo de viaje: No Directo");
