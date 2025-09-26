@@ -10,7 +10,7 @@ public void agregarBus(Bus bus) {
 public boolean eliminarBus(String patente) {
         Bus eliminado = buses.remove(patente);
         if (eliminado != null) {
-            System.out.println("Bus con patente:" + patente + "eliminado");
+            System.out.println("Bus con patente " + patente + " eliminado");
             return true;
         } else {
             System.out.println("No se encontró un bus con patente " + patente);
@@ -19,7 +19,7 @@ public boolean eliminarBus(String patente) {
     }
 
 public void agregarViaje(Viaje viaje) {
-        if (viajes.containsKey(viaje.getViajeID)) {
+        if (viajes.containsKey(viaje.getViajeID())) {
             System.out.println("Ya existe un viaje con id " + viaje.getViajeID());
         } else {
             viajes.put(viaje.getViajeID(), viaje);
