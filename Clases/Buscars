@@ -1,0 +1,9 @@
+public Pasaje buscarPasaje(int idPasaje) {
+    for (int i = 0; i < pasajes.size(); i++) {   
+        Pasaje actual = pasajes.get(i);               
+        if (actual.getIdPasaje() == idPasaje) {       
+            return actual;                            
+        }
+    }
+    return null; 
+}
