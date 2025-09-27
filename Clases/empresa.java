@@ -1,12 +1,11 @@
 package Package;
 
 import java.util.*;
-
-import javax.swing.JOptionPane;
-
+import java.awt.Dimension;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
+import javax.swing.*;
 
 public class empresa {
     private Map<String, bus> busPorPatente;
@@ -154,21 +153,48 @@ public class empresa {
        System.out.println("+Turbus en " + cantidadViajes + "a generado una ganancia de " + gananciaTotal);
     }
     
-    public void mostrarBusesGananciaMayor(float umbral) throws IOException {
-    	
-    	System.out.println("Buses con ganancia mayor a " + umbral +":");
-    	String patenteActual;
-    	bus busActual;
-    	
-    	for (viaje viajeActual : viajesPorId.values()) {
-  
-    		if (this.obtenerGananciaViaje(viajeActual) > umbral) {
-    			patenteActual = viajeActual.getPatente();
-    			busActual = this.obtenerBusPorPatente(patenteActual);
-    			busActual.mostrarInformacion();
-    		}
-    	}
+    public JScrollPane construirScrollBusesYViajesGananciaMayor(float umbral) {
+        JPanel panelPrincipal = new JPanel();
+        panelPrincipal.setLayout(new BoxLayout(panelPrincipal, BoxLayout.Y_AXIS));
+
+        panelPrincipal.add(new JLabel("Buses con ganancia mayor a " + umbral + ":"));
+
+        boolean alguno = false;
+
+        for (viaje viajeActual : viajesPorId.values()) {
+            float ganancia = this.obtenerGananciaViaje(viajeActual);
+            ganancia *= -1; 
+            
+            if (ganancia > umbral || umbral == -120) {
+                bus busActual = this.obtenerBusPorPatente(viajeActual.getPatente());
+                
+                panelPrincipal.add(Box.createVerticalStrut(10));
+                panelPrincipal.add(new JLabel("Ganancia: " + ganancia));
+
+                if (busActual != null) {
+                    panelPrincipal.add(busActual.infoBusComoPanel());
+                } else {
+                    panelPrincipal.add(new JLabel("No se encontró el bus con patente " + viajeActual.getPatente()));
+                }
+
+                panelPrincipal.add(viajeActual.infoViajeCompletaComoPanel());
+                panelPrincipal.add(Box.createRigidArea(new Dimension(0, 10))); // separador visual
+                alguno = true;
+            }
+        }
+
+        if (alguno == false) {
+            panelPrincipal.add(new JLabel("No hay viajes con ganancia superior al umbral."));
+        }
+
+        JScrollPane scroll = new JScrollPane(panelPrincipal);
+        scroll.setPreferredSize(new Dimension(900, 600)); // ventana más ancha
+        scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+
+        return scroll;
     }
+    
     
     public void mostrarPasajesDePersonaPorRut() throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -222,6 +248,91 @@ public class empresa {
 	 public void setPersonasPorRut(Map<String, persona> personasPorRut) {
 		this.personasPorRut = personasPorRut;
 	 }
+	 
+	 public boolean modificarPasaje(String rut, int idPasaje, Integer nuevoAsiento, String nuevaFecha) {
+		    persona cliente = obtenerPersonaPorRut(rut);
+		    if (cliente == null) {
+		        JOptionPane.showMessageDialog(null, "No existe persona con ese RUT.");
+		        return false;
+		    }
+		    pasaje pasajeCliente = null;
+		    for (pasaje pa : cliente.getPasajes()) {
+		        if (pa.getIdPasaje() == idPasaje) {
+		            pasajeCliente = pa;
+		            break;
+		        }
+		    }
+		    if (pasajeCliente == null) {
+		        JOptionPane.showMessageDialog(null, "El cliente no tiene un pasaje con ID " + idPasaje + ".");
+		        return false;
+		    }
+		    viaje v = obtenerViajePorId(pasajeCliente.getIdPasaje());
+		    if (v == null) {
+		        JOptionPane.showMessageDialog(null, "No existe un viaje con ID " + pasajeCliente.getIdPasaje() + ".");
+		        return false;
+		    }
+		    bus b = obtenerBusPorPatente(v.getPatente());
+		    if (b == null) {
+		        JOptionPane.showMessageDialog(null, "No se encontró el bus para el viaje.");
+		        return false;
+		    }
+		    if (nuevoAsiento != null) {
+		        int asientoActual = pasajeCliente.getAsiento();
+		        int asientoNuevo = nuevoAsiento.intValue();
+
+		        if (!b.asientoEnRango(asientoNuevo)) {
+		            JOptionPane.showMessageDialog(null, "Asiento fuera de rango.");
+		            return false;
+		        }
+		        if (asientoNuevo != asientoActual) {
+		            if (b.asientoOcupado(asientoNuevo)) {
+		                JOptionPane.showMessageDialog(null, "El asiento " + asientoNuevo + " ya está ocupado.");
+		                return false;
+		            }
+
+		            b.liberarAsiento(asientoActual);
+		            if (!b.ocuparAsiento(asientoNuevo)) {
+		                b.ocuparAsiento(asientoActual);
+		                JOptionPane.showMessageDialog(null, "No se pudo ocupar el nuevo asiento.");
+		                return false;
+		            }
+		            pasajeCliente.setAsiento(asientoNuevo);
+		        }
+		    }
+		    if (nuevaFecha != null) {
+		        if (nuevaFecha.isBlank()) {
+		            pasajeCliente.setFecha(null);
+		        } else {
+		            pasajeCliente.setFecha(nuevaFecha.trim());
+		        }
+		    }
+		    JOptionPane.showMessageDialog(null, "Pasaje modificado correctamente.");
+		    return true;
+		}
+	 
+	 public boolean cancelarViaje(int idViaje) {
+		    viaje viajeCancelado = viajesPorId.get(idViaje);
+		    if (viajeCancelado == null) {
+		        JOptionPane.showMessageDialog(null, "No existe un viaje con ID " + idViaje + ".");
+		        return false;
+		    }
+
+		    viajesPorId.remove(idViaje);
+		    for (persona personaActual : personasPorRut.values()) {
+		        ArrayList<pasaje> pasajes = personaActual.getPasajes();
+		        ArrayList<pasaje> nuevosPasajes = new ArrayList<>();
+
+		        for (pasaje p : pasajes) {
+		            if (p.getIdPasaje() != idViaje) {
+		                nuevosPasajes.add(p); 
+		            }
+		        }
+
+		        personaActual.setPasajes(nuevosPasajes);
+		    }
+		    JOptionPane.showMessageDialog(null, "Viaje " + idViaje + " cancelado y pasajes eliminados.");
+		    return true;
+		}
 
 	 public void menuCompra() throws IOException {
 		    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -326,6 +437,7 @@ public class empresa {
 		        return;
 		    }
 
+		    // 5) fecha y precio
 		    System.out.println("Ingrese la fecha del viaje (YYYY-MM-DD):");
 		    String fechaElegida = br.readLine();
 		    
@@ -336,6 +448,7 @@ public class empresa {
 		    int precioTotal = viajeElegido.getCostoViaje();
 		    System.out.println("Precio total del viaje: " + precioTotal);
 
+		    // 6) comprar
 		    boolean compraOk = personaCompradora.comprarPasaje(viajeElegido, busDelViaje, asientoElegido, fechaElegida);
 		    if (compraOk == true) {
 		        System.out.println("Compra realizada con éxito.");
@@ -344,88 +457,90 @@ public class empresa {
 		    }
 		}
 	 
-	 public boolean modificarPasaje(String rut, int idPasaje, Integer nuevoAsiento, String nuevaFecha) {
-		    persona cliente = obtenerPersonaPorRut(rut);
-		    if (cliente == null) {
-		        JOptionPane.showMessageDialog(null, "No existe persona con ese RUT.");
-		        return false;
-		    }
-		    pasaje pasajeCliente = null;
-		    for (pasaje pa : cliente.getPasajes()) {
-		        if (pa.getIdPasaje() == idPasaje) {
-		            pasajeCliente = pa;
-		            break;
-		        }
-		    }
-		    if (pasajeCliente == null) {
-		        JOptionPane.showMessageDialog(null, "El cliente no tiene un pasaje con ID " + idPasaje + ".");
-		        return false;
-		    }
-		    viaje v = obtenerViajePorId(pasajeCliente.getIdPasaje());
-		    if (v == null) {
-		        JOptionPane.showMessageDialog(null, "No existe un viaje con ID " + pasajeCliente.getIdPasaje() + ".");
-		        return false;
-		    }
-		    bus b = obtenerBusPorPatente(v.getPatente());
-		    if (b == null) {
-		        JOptionPane.showMessageDialog(null, "No se encontró el bus para el viaje.");
-		        return false;
-		    }
-		    if (nuevoAsiento != null) {
-		        int asientoActual = pasajeCliente.getAsiento();
-		        int asientoNuevo = nuevoAsiento.intValue();
+	 public boolean exportarReporte(String rutaArchivo) {
+		    try (java.io.PrintWriter pw = new java.io.PrintWriter(
+		            new java.io.OutputStreamWriter(
+		                new java.io.FileOutputStream(rutaArchivo), java.nio.charset.StandardCharsets.UTF_8))) {
 
-		        if (!b.asientoEnRango(asientoNuevo)) {
-		            JOptionPane.showMessageDialog(null, "Asiento fuera de rango.");
-		            return false;
-		        }
-		        if (asientoNuevo != asientoActual) {
-		            if (b.asientoOcupado(asientoNuevo)) {
-		                JOptionPane.showMessageDialog(null, "El asiento " + asientoNuevo + " ya está ocupado.");
-		                return false;
-		            }
+		        // ===== BUSES =====
+		        pw.println("#BUSES");
+		        int idxBus = 1;
+		        for (bus b : busPorPatente.values()) {
+		            String nombreBus = "Bus" + idxBus++;
+		            java.util.List<Integer> au = (b.getAsientosUsados() == null) ? java.util.Collections.emptyList() : b.getAsientosUsados();
+		            String asientosTxt = (au.isEmpty()) ? "0" : (au.size() + " " + au.toString());
 
-		            b.liberarAsiento(asientoActual);
-		            if (!b.ocuparAsiento(asientoNuevo)) {
-		                b.ocuparAsiento(asientoActual);
-		                JOptionPane.showMessageDialog(null, "No se pudo ocupar el nuevo asiento.");
-		                return false;
+		            pw.println(
+		                nombreBus + " — " +
+		                "Patente: " + nn(b.getPatente()) + ", " +
+		                "Capacidad: " + b.getCapacidad() + ", " +
+		                "Disponibilidad: " + b.getDisponibilidad() + ", " +
+		                "Tipo: " + b.getTipo() + ", " +
+		                "Asientos ocupados: " + asientosTxt
+		            );
+		        }
+		        pw.println();
+
+		        // ===== VIAJES =====
+		        pw.println("#VIAJES");
+		        for (viaje v : viajesPorId.values()) {
+		            pw.println(
+		                "Viaje ID " + v.getViajeID() + " — " +
+		                "Origen: " + nn(v.getOrigen()) + ", " +
+		                "Destino: " + nn(v.getDestinoFinal()) + ", " +
+		                "Salida: " + nn(v.getHoraSalida()) + ", " +
+		                "Llegada: " + nn(v.getHoraLlegada()) + ", " +
+		                "Patente: " + nn(v.getPatente()) + ", " +
+		                "Costo viaje: " + v.getCostoViaje() + ", " +
+		                "Costo empresa: " + v.getCostoParaEmpresa() + ", " +
+		                "Pasajeros: " + v.getCantidadPasajeros()
+		            );
+		        }
+		        pw.println();
+
+		        // ===== PERSONAS =====
+		        pw.println("#PERSONAS");
+		        int idxPersona = 1;
+		        for (persona p : personasPorRut.values()) {
+		            String nombre = (p.getNombre() != null && !p.getNombre().isEmpty()) ? p.getNombre() : ("Persona" + idxPersona++);
+		            int cant = (p.getPasajes() == null) ? 0 : p.getPasajes().size();
+		            pw.println(
+		                nombre + " (" + nn(p.getRut()) + ") — " +
+		                "Saldo: " + p.getSaldoDisponible() + ", " +
+		                "Pasajes: " + cant
+		            );
+		        }
+		        pw.println();
+
+		        // ===== PASAJES =====
+		        pw.println("#PASAJES");
+		        for (persona p : personasPorRut.values()) {
+		            if (p.getPasajes() == null) continue;
+		            for (pasaje pa : p.getPasajes()) {
+		                pw.println(
+		                    "Pasaje " + pa.getIdPasaje() + " — " +
+		                    "Dueño: " + nn(p.getRut()) + ", " +
+		                    "Destino: " + nn(pa.getDestinoFinal()) + ", " +
+		                    "Fecha: " + nn(pa.getFecha()) + ", " +
+		                    "Salida: " + nn(pa.getHoraSalida()) + ", " +
+		                    "Llegada: " + nn(pa.getHoraLlegada()) + ", " +
+		                    "Asiento: " + pa.getAsiento() + ", " +
+		                    "Costo: " + pa.getCostoPasaje()
+		                );
 		            }
-		            pasajeCliente.setAsiento(asientoNuevo);
 		        }
+
+		        pw.flush();
+		        return true;
+		    } catch (Exception e) {
+		        System.out.println("Error al exportar reporte: " + e.getMessage());
+		        return false;
 		    }
-		    if (nuevaFecha != null) {
-		        if (nuevaFecha.isBlank()) {
-		            pasajeCliente.setFecha(null);
-		        } else {
-		            pasajeCliente.setFecha(nuevaFecha.trim());
-		        }
-		    }
-		    JOptionPane.showMessageDialog(null, "Pasaje modificado correctamente.");
-		    return true;
 		}
-	 
-	 public boolean cancelarViaje(int idViaje) {
-		    viaje viajeCancelado = viajesPorId.get(idViaje);
-		    if (viajeCancelado == null) {
-		        JOptionPane.showMessageDialog(null, "No existe un viaje con ID " + idViaje + ".");
-		        return false;
-		    }
 
-		    viajesPorId.remove(idViaje);
-		    for (persona personaActual : personasPorRut.values()) {
-		        ArrayList<pasaje> pasajes = personaActual.getPasajes();
-		        ArrayList<pasaje> nuevosPasajes = new ArrayList<>();
-
-		        for (pasaje p : pasajes) {
-		            if (p.getIdPasaje() != idViaje) {
-		                nuevosPasajes.add(p); 
-		            }
-		        }
-
-		        personaActual.setPasajes(nuevosPasajes);
-		    }
-		    JOptionPane.showMessageDialog(null, "Viaje " + idViaje + " cancelado y pasajes eliminados.");
-		    return true;
+		private String nn(String s) {
+		    return (s == null || s.isEmpty()) ? "(sin dato)" : s;
 		}
+
+
 }
