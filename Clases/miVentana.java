@@ -473,5 +473,25 @@ public class miVentana extends JFrame {
                 JOptionPane.showMessageDialog(null, "Error al modificar: " + ex.getMessage());
             }
         });
+        
+        btnCancelar.addActionListener(e1 -> {
+            String id = JOptionPane.showInputDialog("Ingrese el ID del viaje a cancelar:");
+            if (id == null || id.isBlank()) return; 
+
+            try {
+                int idViaje = Integer.parseInt(id);
+                boolean ok = miEmpresa.cancelarViaje(idViaje);
+
+                if (ok) {
+                    JOptionPane.showMessageDialog(null, "Viaje " + idViaje + " cancelado correctamente.");
+                } else {
+                    JOptionPane.showMessageDialog(null, "No se pudo cancelar el viaje con ID " + idViaje + ".");
+                }
+
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "ID inválido, debe ser un número.");
+            }
+        });
+
     }
 }
