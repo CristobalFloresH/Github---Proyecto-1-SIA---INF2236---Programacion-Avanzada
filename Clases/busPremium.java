@@ -1,15 +1,16 @@
 package Package;
+import javax.swing.*;
 
 public class busPremium extends bus {
 
     public busPremium(int capacidad, String patente, int disponibilidad, int tipo) {
         super(capacidad, patente, disponibilidad, tipo);
     }
-    
-    public void mostrarInformacion() {
-        super.mostrarInformacion();
-        System.out.println("Cantidad de pisos: 2");
-        System.out.println("Asientos Reclinables: Si");
-        System.out.println("---------------------------------");
+
+    public JPanel infoBusComoPanel() {
+        JPanel panel = super.infoBusComoPanel(); // panel base del padre
+        panel.add(new JLabel("Cantidad de pisos: 1"));
+        panel.add(new JLabel("---------------------------------"));
+        return panel;
     }
 }
