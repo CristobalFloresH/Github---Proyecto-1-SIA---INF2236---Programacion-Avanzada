@@ -175,6 +175,22 @@ public class miVentana extends JFrame {
         btnMostrarUsuarios.setBounds(490, 266, 220, 23);
         panelAdmin.add(btnMostrarUsuarios);
         
+		JButton btnAgregarUsuarios = new JButton("12. Agregar Usuarios");
+		btnAgregarUsuarios.setBackground(new Color(240, 240, 240));
+		btnAgregarUsuarios.setBounds(490, 300, 220, 23);
+		panelAdmin.add(btnAgregarUsuarios);
+		
+		JButton btnNewButton = new JButton("13. Modificar Usuarios");
+		btnNewButton.setBackground(new Color(240, 240, 240));
+		btnNewButton.setBounds(490, 334, 220, 23);
+		panelAdmin.add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("14. Eliminar Usuarios");
+		btnNewButton_1.setBackground(new Color(240, 240, 240));
+		btnNewButton_1.setBounds(490, 368, 220, 23);
+		panelAdmin.add(btnNewButton_1);
+		
+        
      // Botón Volver al menú principal
         JButton btnVolverAdmin = new JButton("0. Volver");
         btnVolverAdmin.setBackground(new Color(240, 240, 240));
@@ -182,19 +198,7 @@ public class miVentana extends JFrame {
         panelAdmin.add(btnVolverAdmin);
         
 		contentPane.add(panelAdmin, "administracion");
-		
-		JButton btnAgregarUsuarios = new JButton("12. Agregar Usuarios");
-		btnAgregarUsuarios.setBounds(490, 300, 220, 23);
-		panelAdmin.add(btnAgregarUsuarios);
-		
-		JButton btnNewButton = new JButton("13. Modificar Usuarios");
-		btnNewButton.setBounds(490, 334, 220, 23);
-		panelAdmin.add(btnNewButton);
-		
-		JButton btnNewButton_1 = new JButton("14. Eliminar Usuarios");
-		btnNewButton_1.setBounds(490, 368, 220, 23);
-		panelAdmin.add(btnNewButton_1);
-		
+	
 		
 		// Navegación: menú principal -> administración
 		btnAdministracion.addActionListener(e1 -> cardLayout.show(contentPane, "administracion"));
