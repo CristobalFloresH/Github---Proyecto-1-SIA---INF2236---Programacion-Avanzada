@@ -4,6 +4,7 @@ import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 import javax.swing.SwingUtilities;
+import javax.swing.JFileChooser;
 
 public class Main {
 
@@ -28,6 +29,25 @@ public class Main {
             // 3) Elegir destino de escritura (el primero de la lista, creando carpeta si hace falta)
             Path destino = RUTAS[0];
             if (destino.getParent() != null) Files.createDirectories(destino.getParent());
+            
+         // 3.5) Permitir elegir ruta y USARLA SIEMPRE (ignorando rutas default)
+            Path sugerido = (origen != null) ? origen : destino;
+            Path elegido = seleccionarRutaConChooser(sugerido);
+            if (elegido != null) {
+                if (elegido.getParent() != null) Files.createDirectories(elegido.getParent());
+
+                // Forzamos que NO se use una ruta default previa:
+                origen = null; // <- clave: anulamos cualquier origen anterior
+
+                // Si el archivo elegido ya existe, lo usamos para leer;
+                // si no existe, no cargamos (bootstrap) y luego guardaremos ahí mismo.
+                if (Files.exists(elegido)) {
+                    origen = elegido;
+                }
+
+                // SIEMPRE escribiremos en el archivo elegido
+                destino = elegido;
+            }
 
             // 4) Cargar o bootstrap
             if (origen != null) {
@@ -226,5 +246,34 @@ public class Main {
     private static String join(List<Integer> nums, String sep) {
         StringBuilder sb = new StringBuilder(); for (int i = 0; i < nums.size(); i++) { if (i>0) sb.append(sep); sb.append(nums.get(i)); }
         return sb.toString();
+    }
+    
+    private static Path seleccionarRutaConChooser(Path sugerido) {
+        final Path[] resultado = new Path[1];
+        Runnable r = () -> {
+            JFileChooser fc = new JFileChooser();
+            fc.setDialogTitle("Selecciona dónde guardar/leer " + FILE_NAME);
+
+            if (sugerido != null) {
+                if (sugerido.getParent() != null) {
+                    fc.setCurrentDirectory(sugerido.getParent().toFile());
+                }
+                fc.setSelectedFile(sugerido.toFile());
+            } else {
+                fc.setSelectedFile(new java.io.File(FILE_NAME));
+            }
+
+            int op = fc.showSaveDialog(null); // usa Save para permitir escribir si no existe
+            if (op == JFileChooser.APPROVE_OPTION) {
+                resultado[0] = fc.getSelectedFile().toPath();
+            }
+        };
+
+        try {
+            if (SwingUtilities.isEventDispatchThread()) r.run();
+            else javax.swing.SwingUtilities.invokeAndWait(r);
+        } catch (Exception ignore) { }
+
+        return resultado[0];
     }
 }
