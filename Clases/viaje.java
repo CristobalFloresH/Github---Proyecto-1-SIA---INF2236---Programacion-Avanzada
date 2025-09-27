@@ -1,6 +1,7 @@
 package Package;
 
 import java.util.ArrayList;
+import javax.swing.*;
 
 public class viaje {
     private int viajeID;
@@ -16,7 +17,7 @@ public class viaje {
     public viaje(int viajeID, int costoViaje,int costoParaEmpresa, String patente, String origen, String destinoFinal, String horaSalida, String horaLlegada) {
         this.viajeID = viajeID;
         this.costoViaje = costoViaje;
-        this.setCostoParaEmpresa(costoParaEmpresa);
+        this.costoParaEmpresa = costoParaEmpresa;
         this.patente = patente;
         this.origen = origen;
         this.destinoFinal = destinoFinal;
@@ -103,5 +104,25 @@ public class viaje {
     
     public int getCantidadPasajeros() {
     	return listaPasajeros.size();
+    }
+    
+    public JPanel infoViajeCompletaComoPanel() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        panel.add(new JLabel(""));
+        panel.add(new JLabel("Información del viaje con ID: " + viajeID));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel("Origen: " + origen));
+        panel.add(new JLabel("Destino: " + destinoFinal));
+        panel.add(new JLabel("Hora de salida: " + horaSalida));
+        panel.add(new JLabel("Hora de llegada: " + horaLlegada));
+        panel.add(new JLabel("Patente del bus: " + patente));
+        panel.add(new JLabel("Costo del viaje: " + costoViaje));
+        panel.add(new JLabel("Costo para la empresa: " + costoParaEmpresa));
+        panel.add(new JLabel("Pasajeros registrados: " + listaPasajeros.size()));
+        panel.add(new JLabel("---------------------------------"));
+
+        return panel;
     }
 }
