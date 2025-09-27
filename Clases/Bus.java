@@ -1,6 +1,7 @@
 package Package;
 
 import java.util.ArrayList;
+import javax.swing.*;
 
 public class bus {
     private int capacidad;
@@ -106,14 +107,19 @@ public class bus {
         return agregados;
     }   
 
-	public void mostrarInformacion() {
-	    System.out.println("---------------------------------");
-	    System.out.println("Información bus con patente: " + patente);
-	    System.out.println("");
-	    System.out.println("Capacidad: " + capacidad);
-	    System.out.println("Disponibilidad: " + disponibilidad);
-	    System.out.println("Tipo: " + tipo);
-	    System.out.println("Asientos Ocupados: " + asientosUsados);
-	    System.out.println("---------------------------------");
-	}
+    public JPanel infoBusComoPanel() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        panel.add(new JLabel(""));
+        panel.add(new JLabel("Información bus con patente: " + patente));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel("Capacidad: " + capacidad));
+        panel.add(new JLabel("Disponibilidad: " + disponibilidad));
+        panel.add(new JLabel("Tipo: " + tipo));
+        panel.add(new JLabel("Asientos Ocupados: " + asientosUsados));
+        panel.add(new JLabel("---------------------------------"));
+
+        return panel;
+    }
 }
