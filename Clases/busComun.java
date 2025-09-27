@@ -1,4 +1,5 @@
 package Package;
+import javax.swing.*;
 
 public class busComun extends bus {
 
@@ -6,9 +7,11 @@ public class busComun extends bus {
         super(capacidad, patente, disponibilidad, tipo);
     }
 
-    public void mostrarInformacion() {
-        super.mostrarInformacion();
-        System.out.println("Cantidad de pisos: 1");
-        System.out.println("---------------------------------");
+
+    public JPanel infoBusComoPanel() {
+        JPanel panel = super.infoBusComoPanel(); // panel base del padre
+        panel.add(new JLabel("Cantidad de pisos: 1"));
+        panel.add(new JLabel("---------------------------------"));
+        return panel;
     }
 }
