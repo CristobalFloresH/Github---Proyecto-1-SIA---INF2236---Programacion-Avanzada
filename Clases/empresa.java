@@ -404,4 +404,28 @@ public class empresa {
 		    JOptionPane.showMessageDialog(null, "Pasaje modificado correctamente.");
 		    return true;
 		}
+	 
+	 public boolean cancelarViaje(int idViaje) {
+		    viaje viajeCancelado = viajesPorId.get(idViaje);
+		    if (viajeCancelado == null) {
+		        JOptionPane.showMessageDialog(null, "No existe un viaje con ID " + idViaje + ".");
+		        return false;
+		    }
+
+		    viajesPorId.remove(idViaje);
+		    for (persona personaActual : personasPorRut.values()) {
+		        ArrayList<pasaje> pasajes = personaActual.getPasajes();
+		        ArrayList<pasaje> nuevosPasajes = new ArrayList<>();
+
+		        for (pasaje p : pasajes) {
+		            if (p.getIdPasaje() != idViaje) {
+		                nuevosPasajes.add(p); 
+		            }
+		        }
+
+		        personaActual.setPasajes(nuevosPasajes);
+		    }
+		    JOptionPane.showMessageDialog(null, "Viaje " + idViaje + " cancelado y pasajes eliminados.");
+		    return true;
+		}
 }
