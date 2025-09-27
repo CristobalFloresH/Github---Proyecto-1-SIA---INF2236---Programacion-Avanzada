@@ -1,890 +1,723 @@
 package Package;
 
+import java.util.*;
+import java.awt.Dimension;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
 import javax.swing.*;
-import java.awt.*;
-//import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-//import java.awt.event.ActionEvent;
 
-public class miVentana extends JFrame {
+public class empresa {
+    private Map<String, bus> busPorPatente;
+    private Map<Integer, viaje> viajesPorId;
+    private Map<String, persona> personasPorRut;
 
-    private static final long serialVersionUID = 1L;
-    private JPanel contentPane;
-    private empresa miEmpresa;
-    private JPanel panelMenu;
-    private JPanel panelRegistrar;
-    private JPanel panelMostrar;
-    private CardLayout cardLayout;
-
-    public static void main(String[] args) {
-        EventQueue.invokeLater(() -> {
-            try {
-            	//Aqui se ejecuta la clase main para iniciar la empresa con los datos ya cargados
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+    public empresa() {
+        this.busPorPatente = new HashMap<String, bus>();
+        this.viajesPorId = new HashMap<Integer, viaje>();
+        this.setPersonasPorRut(new HashMap<String, persona>());
     }
 
-    public miVentana(empresa e) {
-        this.miEmpresa = e;
-
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 800, 600);
-        cardLayout = new CardLayout();
-        contentPane = new JPanel();
-        contentPane.setLayout(cardLayout);
-        setContentPane(contentPane);
-
-        // Panel Principal
-        panelMenu = new JPanel();
-        panelMenu.setLayout(null);
-        panelMenu.setBackground(Color.WHITE);
-
-        JButton btnRegistro = new JButton("1. Registrarse");
-        btnRegistro.setBackground(new Color(240, 240, 240));
-        btnRegistro.setBounds(49, 266, 218, 23);
-        panelMenu.add(btnRegistro);
-
-        JButton btnComprar = new JButton("2. Comprar pasajes");
-        btnComprar.setBackground(new Color(240, 240, 240));
-        btnComprar.setBounds(49, 300, 218, 23);
-        panelMenu.add(btnComprar);
-
-        JButton btnCancelar = new JButton("3. Cancelar pasaje");
-        btnCancelar.setBackground(new Color(240, 240, 240));
-        btnCancelar.setBounds(49, 334, 218, 23);
-        panelMenu.add(btnCancelar);
-
-        JButton btnMostrarPasajes = new JButton("4. Mostrar pasajes");
-        btnMostrarPasajes.setBackground(new Color(240, 240, 240));
-        btnMostrarPasajes.setBounds(49, 366, 218, 23);
-        panelMenu.add(btnMostrarPasajes);
-        
-        JButton btnModificarPasajes = new JButton("5. Modificar pasaje");
-        btnModificarPasajes.setBackground(new Color(240, 240, 240));
-        btnModificarPasajes.setBounds(49, 401, 218, 23);
-        panelMenu.add(btnModificarPasajes);
-
-        JButton btnAdministracion = new JButton("7. Administracion de datos");
-        btnAdministracion.setBackground(new Color(240, 240, 240));
-        btnAdministracion.setBounds(49, 435, 218, 23);
-        panelMenu.add(btnAdministracion);
-
-        JButton btnSalir = new JButton("0. Salir");
-        btnSalir.setBackground(new Color(240, 240, 240));
-        btnSalir.setBounds(49, 469, 89, 23);
-        panelMenu.add(btnSalir);
-
-        JLabel lblBienvenido = new JLabel("Bienvenido a +Turbus!");
-        lblBienvenido.setFont(new Font("Yu Gothic Medium", Font.BOLD | Font.ITALIC, 54));
-        lblBienvenido.setBounds(64, 24, 700, 105);
-        panelMenu.add(lblBienvenido);
-        contentPane.add(panelMenu, "menu");
-        
-      //|| SEGUNDO PANEL, ADMINISTRACION DE DATOS||
-      //|| SEGUNDO PANEL, ADMINISTRACION DE DATOS||
-      //|| SEGUNDO PANEL, ADMINISTRACION DE DATOS||
-        
-        JPanel panelAdmin = new JPanel();
-        panelAdmin.setLayout(null);
-        panelAdmin.setBackground(new Color(255, 255, 255));
-
-        JLabel lblAdmin = new JLabel("Panel de administración de datos");
-        lblAdmin.setFont(new Font("Yu Gothic Medium", Font.BOLD, 40));
-        lblAdmin.setBounds(22, 11, 718, 101);
-        panelAdmin.add(lblAdmin);
-        
-		JButton btnInformacionBuses = new JButton("1. Mostrar informacion buses");
-		btnInformacionBuses.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnInformacionBuses.setBackground(new Color(240, 240, 240));
-		btnInformacionBuses.setBounds(22, 196, 220, 23);
-		panelAdmin.add(btnInformacionBuses);
-		
-		JButton btnAgregarBuses = new JButton("2. Agregar Buses");
-		btnAgregarBuses.setBackground(new Color(240, 240, 240));
-		btnAgregarBuses.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnAgregarBuses.setBounds(22, 230, 220, 23);
-		panelAdmin.add(btnAgregarBuses);
-		
-		JButton btnModificarBuses = new JButton("3. Modificar Buses");
-		btnModificarBuses.setBackground(new Color(240, 240, 240));
-		btnModificarBuses.setBounds(22, 264, 220, 23);
-		panelAdmin.add(btnModificarBuses);
-		
-		
-		JButton btnEliminarBuses = new JButton("4. Eliminar Buses");
-		btnEliminarBuses.setBackground(new Color(240, 240, 240));
-		btnEliminarBuses.setBounds(22, 298, 220, 23);
-		panelAdmin.add(btnEliminarBuses);
-		
-        JButton btnExportarTxt = new JButton("5. Exportar reporte");
-        btnExportarTxt.setBackground(new Color(240, 240, 240));
-        btnExportarTxt.setBounds(22, 332, 220, 23);
-        panelAdmin.add(btnExportarTxt);
-		
-		JButton btnMostrarInformacionViajes = new JButton("6. Mostrar Informacion Viajes");
-		btnMostrarInformacionViajes.setBackground(new Color(240, 240, 240));
-		btnMostrarInformacionViajes.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnMostrarInformacionViajes.setBounds(260, 196, 220, 23);
-		panelAdmin.add(btnMostrarInformacionViajes);
-		
-		JButton btnAgregarViajes = new JButton("7. Agregar Viajes");
-		btnAgregarViajes.setBackground(new Color(240, 240, 240));
-		btnAgregarViajes.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnAgregarViajes.setBounds(260, 230, 220, 23);
-		panelAdmin.add(btnAgregarViajes);
-        
-		JButton BtnModificarViajes = new JButton("8. Modificar Viajes");
-		BtnModificarViajes.setBackground(new Color(240, 240, 240));
-		BtnModificarViajes.setBounds(260, 266, 220, 23);
-		panelAdmin.add(BtnModificarViajes);
-		
-		JButton btnEliminarViajes = new JButton("9. Eliminar Viajes");
-		btnEliminarViajes.setBackground(new Color(240, 240, 240));
-		btnEliminarViajes.setBounds(260, 300, 220, 23);
-		panelAdmin.add(btnEliminarViajes);
-
-		
-        JButton btnUmbralBusesViajes = new JButton("10. Umbral Ganancias");
-        btnUmbralBusesViajes.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        	}
-        });
-        btnUmbralBusesViajes.setBackground(new Color(240, 240, 240));
-        btnUmbralBusesViajes.setBounds(260, 334, 220, 23);
-        panelAdmin.add(btnUmbralBusesViajes);
-	
-        JButton btnMostrarUsuarios = new JButton("11. Mostrar usuarios");
-        btnMostrarUsuarios.setBackground(new Color(240, 240, 240));
-        btnMostrarUsuarios.setBounds(490, 196, 220, 23);
-        panelAdmin.add(btnMostrarUsuarios);
-        
-		JButton btnAgregarUsuarios = new JButton("12. Agregar Usuarios");
-		btnAgregarUsuarios.setBackground(new Color(240, 240, 240));
-		btnAgregarUsuarios.setBounds(490, 230, 220, 23);
-		panelAdmin.add(btnAgregarUsuarios);
-		
-		JButton btnNewButton = new JButton("13. Modificar Usuarios");
-		btnNewButton.setBackground(new Color(240, 240, 240));
-		btnNewButton.setBounds(490, 266, 220, 23);
-		panelAdmin.add(btnNewButton);
-		
-		JButton btnNewButton_1 = new JButton("14. Eliminar Usuarios");
-		btnNewButton_1.setBackground(new Color(240, 240, 240));
-		btnNewButton_1.setBounds(490, 300, 220, 23);
-		panelAdmin.add(btnNewButton_1);
-		
-        
-     // Botón Volver al menú principal
-        JButton btnVolverAdmin = new JButton("0. Volver");
-        btnVolverAdmin.setBackground(new Color(240, 240, 240));
-        btnVolverAdmin.setBounds(260, 379, 220, 23);
-        panelAdmin.add(btnVolverAdmin);
-        
-		contentPane.add(panelAdmin, "administracion");
-		
-		JButton btnBuscarGeneral = new JButton("15. Buscar General");
-		btnBuscarGeneral.setBackground(UIManager.getColor("Button.background"));
-		btnBuscarGeneral.setBounds(490, 334, 220, 23);
-		panelAdmin.add(btnBuscarGeneral);
-	
-		
-		// Navegación: menú principal -> administración
-		btnAdministracion.addActionListener(e1 -> cardLayout.show(contentPane, "administracion"));
-		btnVolverAdmin.addActionListener(e3 -> cardLayout.show(contentPane, "menu"));
-
-             
-
-        // Panel de Registro
-        panelRegistrar = new JPanel();
-        panelRegistrar.setLayout(null);
-        panelRegistrar.setBackground(Color.WHITE);
-
-        JLabel lblRut = new JLabel("RUT:");
-        lblRut.setBounds(50, 50, 100, 25);
-        panelRegistrar.add(lblRut);
-
-        JTextField txtRut = new JTextField();
-        txtRut.setBounds(150, 50, 150, 25);
-        panelRegistrar.add(txtRut);
-
-        JLabel lblNombre = new JLabel("Nombre:");
-        lblNombre.setBounds(50, 100, 100, 25);
-        panelRegistrar.add(lblNombre);
-
-        JTextField txtNombre = new JTextField();
-        txtNombre.setBounds(150, 100, 150, 25);
-        panelRegistrar.add(txtNombre);
-
-        JLabel lblSaldo = new JLabel("Saldo:");
-        lblSaldo.setBounds(50, 150, 100, 25);
-        panelRegistrar.add(lblSaldo);
-
-        JTextField txtSaldo = new JTextField();
-        txtSaldo.setBounds(150, 150, 150, 25);
-        panelRegistrar.add(txtSaldo);
-
-        JButton btnGuardar = new JButton("Registrar");
-        btnGuardar.setBounds(150, 200, 120, 25);
-        panelRegistrar.add(btnGuardar);
-
-        JButton btnVolver = new JButton("Volver");
-        btnVolver.setBounds(50, 200, 80, 25);
-        panelRegistrar.add(btnVolver);
-
-        contentPane.add(panelRegistrar, "registrar");
-
-        // Acciones botones menú y registro
-        btnRegistro.addActionListener(e1 -> cardLayout.show(contentPane, "registrar"));
-        btnVolver.addActionListener(e2 -> cardLayout.show(contentPane, "menu"));
-        btnSalir.addActionListener(e3 -> System.exit(0));
-
-        btnGuardar.addActionListener(e4 -> {
-            try {
-                String rut = txtRut.getText();
-                String nombre = txtNombre.getText();
-                String saldoStr = txtSaldo.getText();
-
-                if (nombre == null || nombre.trim().isEmpty() || !nombre.matches("[a-zA-Z ]+")) {
-                    throw new nombreInvalidoException("El nombre solo puede contener letras y espacios.");
-                }
-                if (rut == null || rut.trim().isEmpty() || !rut.matches("\\d{7,8}-[\\dkK]")) {
-                    throw new rutInvalidoException("El RUT debe tener formato 12345678-9.");
-                }
-
-                int saldo = Integer.parseInt(saldoStr); 
-
- 
-                if (miEmpresa.existeRut(rut.trim())) {
-                    JOptionPane.showMessageDialog(null, "Ya existe una persona con el RUT " + rut + ".");
-                    return;
-                }
-
-                persona p = new persona(nombre.trim(), rut.trim(), saldo);
-                miEmpresa.registrarPersona(p);
-
-                JOptionPane.showMessageDialog(null, "Usuario registrado correctamente!");
-                txtRut.setText("");
-                txtNombre.setText("");
-                txtSaldo.setText("");
-                cardLayout.show(contentPane, "menu");
-
-            } catch (NumberFormatException nfe) {
-                JOptionPane.showMessageDialog(null, "El saldo debe ser un número entero (sin puntos).");
-            } catch (nombreInvalidoException nie) {
-                JOptionPane.showMessageDialog(null, nie.getMessage());
-            } catch (rutInvalidoException rie) {
-                JOptionPane.showMessageDialog(null, rie.getMessage());
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, "Error inesperado: " + ex.getMessage());
-            }
-        });
-
-        // Panel de Mostrar Pasajes
-        panelMostrar = new JPanel();
-        panelMostrar.setLayout(new BorderLayout());
-        panelMostrar.setBackground(new Color(192, 192, 192));
-
-        // Panel interno para listar pasajes
-        JPanel listaPasajesPanel = new JPanel();
-        listaPasajesPanel.setLayout(new BoxLayout(listaPasajesPanel, BoxLayout.Y_AXIS));
-
-        JScrollPane scrollPane = new JScrollPane(listaPasajesPanel);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        panelMostrar.add(scrollPane, BorderLayout.CENTER);
-
-        JButton btnVolverMostrar = new JButton("Volver");
-        panelMostrar.add(btnVolverMostrar, BorderLayout.SOUTH);
-        btnVolverMostrar.addActionListener(e1 -> cardLayout.show(contentPane, "menu"));
-
-        contentPane.add(panelMostrar, "MostrarPasajes");
-
-        // Acción del botón mostrar pasajes
-        btnMostrarPasajes.addActionListener(e2 -> {
-        	try {
-        		//Excepcion error al mostrar 
-                listaPasajesPanel.removeAll();
-                String rut = JOptionPane.showInputDialog("Ingrese el RUT de la persona:");
-                persona p = miEmpresa.obtenerPersonaPorRut(rut);
-
-                if (p == null) {
-                    JOptionPane.showMessageDialog(null, "No existe persona con ese RUT.");
-                } else if (p.getPasajes().isEmpty()) {
-                    listaPasajesPanel.add(new JLabel("No tiene pasajes."));
-                } else {
-                    for (pasaje pasajeActual : p.getPasajes()) {
-                        JLabel label = new JLabel(
-                            "ID: " + pasajeActual.getIdPasaje() +
-                            " | Destino: " + pasajeActual.getDestinoFinal() +
-                            " | Salida: " + pasajeActual.getHoraSalida() +
-                            " | Llegada: " + pasajeActual.getHoraLlegada() +
-                            " | Asiento: " + pasajeActual.getAsiento() +
-                            " | Fecha: " + pasajeActual.getFecha() +
-                            " | Costo: " + pasajeActual.getCostoPasaje()
-                        );
-                        label.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-                        listaPasajesPanel.add(label);
-                    }
-                }
-
-                listaPasajesPanel.revalidate();
-                listaPasajesPanel.repaint();
-                cardLayout.show(contentPane, "MostrarPasajes");
-        	} catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, "Error al mostrar pasajes: " + ex.getMessage());
-            }
-        });
-        
-        
-        //Panel de Mostrar Usuarios
-        JPanel panelUsuarios = new JPanel();
-        panelUsuarios.setLayout(new BorderLayout());
-        panelUsuarios.setBackground(new Color(200, 200, 255)); 
-
-        // Panel interno para listar usuarios
-        JPanel listaUsuariosPanel = new JPanel();
-        listaUsuariosPanel.setLayout(new BoxLayout(listaUsuariosPanel, BoxLayout.Y_AXIS));
-
-        JScrollPane scrollUsuarios = new JScrollPane(listaUsuariosPanel);
-        scrollUsuarios.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        panelUsuarios.add(scrollUsuarios, BorderLayout.CENTER);
-
-        JButton btnVolverUsuarios = new JButton("Volver");
-        panelUsuarios.add(btnVolverUsuarios, BorderLayout.SOUTH);
-        btnVolverUsuarios.addActionListener(e1 -> cardLayout.show(contentPane, "administracion"));
-
-        contentPane.add(panelUsuarios, "MostrarUsuarios");
-
-        // Acción del botón mostrar usuarios
-        btnMostrarUsuarios.addActionListener(e2 -> {
-        	try {
-        		//Excepcion de error al mostrar usuario
-                listaUsuariosPanel.removeAll();
-
-                if (miEmpresa.getPersonasPorRut().isEmpty()) {
-                    listaUsuariosPanel.add(new JLabel("No hay personas registradas."));
-                } else {
-                    for (persona p : miEmpresa.getPersonasPorRut().values()) {
-                        JLabel label = new JLabel(
-                            "Nombre: " + p.getNombre() +
-                            " | RUT: " + p.getRut() +
-                            " | Saldo: " + p.getSaldoDisponible()
-                        );
-                        label.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-                        listaUsuariosPanel.add(label);
-                    }
-                }
-
-                listaUsuariosPanel.revalidate();
-                listaUsuariosPanel.repaint();
-                cardLayout.show(contentPane, "MostrarUsuarios");
-        	} catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, "Error al mostrar usuarios: " + ex.getMessage());
-            }
-        });
-
-        // Panel de Comprar Pasajes
-        JPanel panelCompra = new JPanel();
-        panelCompra.setLayout(new BorderLayout());
-        panelCompra.setBackground(new Color(220, 220, 180));
-
-        JPanel listaCompraPanel = new JPanel();
-        listaCompraPanel.setLayout(new BoxLayout(listaCompraPanel, BoxLayout.Y_AXIS));
-
-        JScrollPane scrollCompra = new JScrollPane(listaCompraPanel);
-        scrollCompra.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        panelCompra.add(scrollCompra, BorderLayout.CENTER);
-
-        JButton btnVolverCompra = new JButton("Volver");
-        panelCompra.add(btnVolverCompra, BorderLayout.SOUTH);
-        btnVolverCompra.addActionListener(e1 -> cardLayout.show(contentPane, "menu"));
-
-        contentPane.add(panelCompra, "ComprarPasajes");
-
-        // Acción del botón comprar pasajes
-        btnComprar.addActionListener(e2 -> {
-        	//Excepcion de error en el asiento
-        	try {
-                listaCompraPanel.removeAll();
-
-                String rutIngresado = JOptionPane.showInputDialog("Ingrese su RUT:");
-                persona personaCompradora = miEmpresa.obtenerPersonaPorRut(rutIngresado);
-
-                if (personaCompradora == null) {
-                    JOptionPane.showMessageDialog(null, "No existe persona con ese RUT. Regístrese primero.");
-                    return;
-                }
-                ArrayList<String> destinosUnicos = miEmpresa.obtenerDestinosUnicos();
-                
-                if (destinosUnicos.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "No hay viajes disponibles.");
-                    return;
-                }
-
-                // Selección de destino
-                String[] opcionesDestinos = destinosUnicos.toArray(new String[0]);
-                String destinoElegido = (String) JOptionPane.showInputDialog(
-                    null,
-                    "Seleccione el destino:",
-                    "Destino",
-                    JOptionPane.PLAIN_MESSAGE,
-                    null,
-                    opcionesDestinos,
-                    opcionesDestinos[0]
-                );
-
-                if (destinoElegido == null) return; 
-                
-                ArrayList<viaje> viajesDelDestino = miEmpresa.obtenerViajesPorDestino(destinoElegido);
-
-                if (viajesDelDestino.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "No hay viajes para ese destino.");
-                    return;
-                }
-
-                // Selección de viaje por horario
-                String[] opcionesViajes = new String[viajesDelDestino.size()];
-                for (int i = 0; i < viajesDelDestino.size(); i++) {
-                    viaje v = viajesDelDestino.get(i);
-                    opcionesViajes[i] = "Salida: " + v.getHoraSalida() +
-                                        " | Llegada: " + v.getHoraLlegada() +
-                                        " | Costo: " + v.getCostoViaje() +
-                                        " | Patente: " + v.getPatente();
-                }
-
-                String viajeElegidoStr = (String) JOptionPane.showInputDialog(
-                    null,
-                    "Seleccione el viaje según su horario:",
-                    "Viajes",
-                    JOptionPane.PLAIN_MESSAGE,
-                    null,
-                    opcionesViajes,
-                    opcionesViajes[0]
-                );
-
-                if (viajeElegidoStr == null) return; 
-
-                viaje viajeElegido = viajesDelDestino.get(0);
-                for (viaje v : viajesDelDestino) {
-                    String desc = "Salida: " + v.getHoraSalida() +
-                                  " | Llegada: " + v.getHoraLlegada() +
-                                  " | Costo: " + v.getCostoViaje() +
-                                  " | Patente: " + v.getPatente();
-                    if (desc.equals(viajeElegidoStr)) {
-                        viajeElegido = v;
-                        break;
-                    }
-                }
-
-                bus busDelViaje = miEmpresa.obtenerBusPorPatente(viajeElegido.getPatente());
-
-                // Mostrar asientos disponibles
-                ArrayList<Integer> asientosDisponibles = new ArrayList<>();
-                for (int asiento = 1; asiento <= busDelViaje.getCapacidad(); asiento++) {
-                    if (!busDelViaje.asientoOcupado(asiento)) {
-                        asientosDisponibles.add(asiento);
-                    }
-                }
-
-                if (asientosDisponibles.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "No quedan asientos disponibles en este bus.");
-                    return;
-                }
-
-                String[] opcionesAsientos = asientosDisponibles.stream()
-                        .map(String::valueOf)
-                        .toArray(String[]::new);
-
-                String asientoElegidoStr = (String) JOptionPane.showInputDialog(
-                    null,
-                    "Seleccione un asiento:",
-                    "Asientos",
-                    JOptionPane.PLAIN_MESSAGE,
-                    null,
-                    opcionesAsientos,
-                    opcionesAsientos[0]
-                );
-
-                if (asientoElegidoStr == null) return; 
-                int asientoElegido = Integer.parseInt(asientoElegidoStr);
-
-                // Ingresar fecha
-                String fechaElegida = JOptionPane.showInputDialog("Ingrese la fecha del viaje (YYYY-MM-DD):");
-                if (fechaElegida == null || fechaElegida.isEmpty()) return;
-
-                // Comprar pasaje
-                boolean exito = personaCompradora.comprarPasaje(viajeElegido, busDelViaje, asientoElegido, fechaElegida);
-                if (exito) {
-                    JOptionPane.showMessageDialog(null, "Compra realizada con éxito.");
-                } else {
-                    JOptionPane.showMessageDialog(null, "No se pudo realizar la compra.");
-                }
-
-                cardLayout.show(contentPane, "menu");
-        	} catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(null, "Asiento inválido. Intente nuevamente.");
-                return;
-            }
-        });
-        
-        btnModificarPasajes.addActionListener(e1 -> {
-            try {
-
-                String rut = JOptionPane.showInputDialog(null, "RUT del cliente:");
-                if (rut == null || rut.isBlank()) return;
-                
-                persona cliente = miEmpresa.obtenerPersonaPorRut(rut);
-                if (cliente == null) {
-                    JOptionPane.showMessageDialog(null, "No existe persona con ese RUT.");
-                    return;
-                }
-
-                String idStr = JOptionPane.showInputDialog(null, "ID del pasaje (ID del viaje):");
-                if (idStr == null || idStr.isBlank()) return;
-                int idPasaje;
-                try {
-                    idPasaje = Integer.parseInt(idStr);
-                } catch (NumberFormatException nfe) {
-                    JOptionPane.showMessageDialog(null, "ID inválido.");
-                    return;
-                }
-                boolean tieneEsePasaje = false;
-                for (pasaje pa : cliente.getPasajes()) {
-                    if (pa.getIdPasaje() == idPasaje) {
-                        tieneEsePasaje = true;
-                        break;
-                    }
-                }
-                if (!tieneEsePasaje) {
-                    JOptionPane.showMessageDialog(null, "El cliente no tiene un pasaje con ID " + idPasaje + ".");
-                    return;
-                }
-
-                String asientoStr = JOptionPane.showInputDialog(null, "Nuevo asiento (vacío para mantener):");
-                Integer nuevoAsiento = null;
-                if (asientoStr != null && !asientoStr.isBlank()) {
-                    try {
-                        nuevoAsiento = Integer.valueOf(asientoStr);
-                    } catch (NumberFormatException nfe) {
-                        JOptionPane.showMessageDialog(null, "Asiento inválido.");
-                        return;
-                    }
-                }
-                String nuevaFecha = JOptionPane.showInputDialog(null, "Nueva fecha (YYYY-MM-DD, vacío para mantener):");
-                if (nuevaFecha != null && nuevaFecha.isBlank()) {
-                    nuevaFecha = null;
-                }
-
-                miEmpresa.modificarPasaje(rut, idPasaje, nuevoAsiento, nuevaFecha);
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, "Error al modificar: " + ex.getMessage());
-            }
-        });
-        
-        
-        btnCancelar.addActionListener(e1 -> {
-            String id = JOptionPane.showInputDialog("Ingrese el ID del viaje a cancelar:");
-            if (id == null || id.isBlank()) return; 
-
-            try {
-                int idViaje = Integer.parseInt(id);
-                boolean ok = miEmpresa.cancelarViaje(idViaje);
-
-                if (ok) {
-                    JOptionPane.showMessageDialog(null, "Viaje " + idViaje + " cancelado correctamente.");
-                } else {
-                    JOptionPane.showMessageDialog(null, "No se pudo cancelar el viaje con ID " + idViaje + ".");
-                }
-
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(null, "ID inválido, debe ser un número.");
-            }
-        });
-
-
-        btnExportarTxt.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JFileChooser fc = new JFileChooser();
-                fc.setDialogTitle("Guardar reporte (legible)");
-                fc.setSelectedFile(new java.io.File("reporte.txt"));
-                int r = fc.showSaveDialog(null);
-                if (r == JFileChooser.APPROVE_OPTION) {
-                    String path = fc.getSelectedFile().getAbsolutePath();
-                    boolean ok = miEmpresa.exportarReporte(path);
-                    if (ok) {
-                        JOptionPane.showMessageDialog(null, "Reporte exportado en:\n" + path);
-                    } else {
-                        JOptionPane.showMessageDialog(null, "No se pudo exportar el reporte.");
-                    }
-                }
-            }
-        });
-        
-        btnUmbralBusesViajes.addActionListener(e3 -> {
-            try {
-                String texto = JOptionPane.showInputDialog("Ingrese el umbral de ganancias");
-                if (texto == null || texto.trim().isEmpty() == true) {
-                    JOptionPane.showMessageDialog(this, "Ingrese un umbral (número).");
-                    return;
-                }
-
-                float umbral = Float.parseFloat(texto.replace(",", ".").trim());
-
-
-                JScrollPane scroll = miEmpresa.construirScrollBusesYViajesGananciaMayor(umbral);
-                JOptionPane.showMessageDialog(this, scroll, "Reporte de Ganancias", JOptionPane.INFORMATION_MESSAGE);
-
-            } catch (NumberFormatException nfe) {
-                JOptionPane.showMessageDialog(this, "El umbral debe ser un número (usa punto o coma).");
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "Error inesperado: " + ex.getMessage());
-            }
-        });
-        
-     // ==== BUSES ====
-
-     // 1) Agregar Bus
-     btnAgregarBuses.addActionListener(e1 -> {
-         try {
-             String patente = JOptionPane.showInputDialog(this, "Patente del bus:");
-             if (patente == null || patente.isBlank()) return;
-
-             String capacidadStr = JOptionPane.showInputDialog(this, "Capacidad (entero):");
-             if (capacidadStr == null || capacidadStr.isBlank()) return;
-             int capacidad = Integer.parseInt(capacidadStr.trim());
-
-             String disponibilidadStr = JOptionPane.showInputDialog(this, "Disponibilidad (entero):");
-             if (disponibilidadStr == null || disponibilidadStr.isBlank()) return;
-             int disponibilidad = Integer.parseInt(disponibilidadStr.trim());
-
-             String tipoStr = JOptionPane.showInputDialog(this, "Tipo (entero):");
-             if (tipoStr == null || tipoStr.isBlank()) return;
-             int tipo = Integer.parseInt(tipoStr.trim());
-
-             bus nuevoBus = new bus(capacidad, patente.trim(), disponibilidad, tipo);
-             miEmpresa.agregarBus(nuevoBus);
-         } catch (NumberFormatException ex) {
-             JOptionPane.showMessageDialog(this, "Valores numéricos inválidos.");
-         }
-     });
-
-     // 2) Modificar Bus
-     btnModificarBuses.addActionListener(e1 -> {
-         try {
-             String patente = JOptionPane.showInputDialog(this, "Patente del bus a modificar:");
-             if (patente == null || patente.isBlank()) return;
-
-             bus busExistente = miEmpresa.obtenerBusPorPatente(patente.trim());
-             if (busExistente == null) {
-                 JOptionPane.showMessageDialog(this, "No se encontró un bus con esa patente.");
-                 return;
-             }
-
-             String capacidadStr = JOptionPane.showInputDialog(this, "Nueva capacidad (entero):", busExistente.getCapacidad());
-             if (capacidadStr == null || capacidadStr.isBlank()) return;
-             int capacidad = Integer.parseInt(capacidadStr.trim());
-
-             String disponibilidadStr = JOptionPane.showInputDialog(this, "Nueva disponibilidad (entero):", busExistente.getDisponibilidad());
-             if (disponibilidadStr == null || disponibilidadStr.isBlank()) return;
-             int disponibilidad = Integer.parseInt(disponibilidadStr.trim());
-
-             String tipoStr = JOptionPane.showInputDialog(this, "Nuevo tipo (entero):", busExistente.getTipo());
-             if (tipoStr == null || tipoStr.isBlank()) return;
-             int tipo = Integer.parseInt(tipoStr.trim());
-
-             busExistente.setCapacidad(capacidad);
-             busExistente.setDisponibilidad(disponibilidad);
-             busExistente.setTipo(tipo);
-
-             JOptionPane.showMessageDialog(this, "Bus modificado: " + patente.trim());
-         } catch (NumberFormatException ex) {
-             JOptionPane.showMessageDialog(this, "Valores numéricos inválidos.");
-         }
-     });
-
-     // 3) Eliminar Bus
-     btnEliminarBuses.addActionListener(e1 -> {
-         String patente = JOptionPane.showInputDialog(this, "Patente del bus a eliminar:");
-         if (patente == null || patente.isBlank()) return;
-         miEmpresa.eliminarBus(patente.trim());
-     });
-
-
-     // ==== VIAJES ====
-
-     // 4) Agregar Viaje
-     btnAgregarViajes.addActionListener(e1 -> {
-         try {
-             String idStr = JOptionPane.showInputDialog(this, "ID del viaje (entero):");
-             if (idStr == null || idStr.isBlank()) return;
-             int idViaje = Integer.parseInt(idStr.trim());
-
-             String costoViajeStr = JOptionPane.showInputDialog(this, "Costo del viaje (entero):");
-             if (costoViajeStr == null || costoViajeStr.isBlank()) return;
-             int costoViaje = Integer.parseInt(costoViajeStr.trim());
-
-             String costoEmpresaStr = JOptionPane.showInputDialog(this, "Costo para la empresa (entero):");
-             if (costoEmpresaStr == null || costoEmpresaStr.isBlank()) return;
-             int costoEmpresa = Integer.parseInt(costoEmpresaStr.trim());
-
-             String patenteBus = JOptionPane.showInputDialog(this, "Patente del bus:");
-             if (patenteBus == null || patenteBus.isBlank()) return;
-
-             String origen = JOptionPane.showInputDialog(this, "Origen:");
-             if (origen == null || origen.isBlank()) return;
-
-             String destino = JOptionPane.showInputDialog(this, "Destino:");
-             if (destino == null || destino.isBlank()) return;
-
-             String horaSalida = JOptionPane.showInputDialog(this, "Hora de salida (HH:MM):");
-             if (horaSalida == null || horaSalida.isBlank()) return;
-
-             String horaLlegada = JOptionPane.showInputDialog(this, "Hora de llegada (HH:MM):");
-             if (horaLlegada == null || horaLlegada.isBlank()) return;
-
-             viaje nuevoViaje = new viaje(idViaje, costoViaje, costoEmpresa,
-                                          patenteBus.trim(), origen.trim(), destino.trim(),
-                                          horaSalida.trim(), horaLlegada.trim());
-             miEmpresa.agregarViaje(nuevoViaje);
-         } catch (NumberFormatException ex) {
-             JOptionPane.showMessageDialog(this, "Valores numéricos inválidos.");
-         }
-     });
-
-     // 5) Modificar Viaje
-     BtnModificarViajes.addActionListener(e1 -> {
-         try {
-             String idStr = JOptionPane.showInputDialog(this, "ID del viaje a modificar:");
-             if (idStr == null || idStr.isBlank()) return;
-             int idViaje = Integer.parseInt(idStr.trim());
-
-             viaje viajeExistente = miEmpresa.obtenerViajePorId(idViaje);
-             if (viajeExistente == null) {
-                 JOptionPane.showMessageDialog(this, "No se encontró un viaje con ID " + idViaje);
-                 return;
-             }
-
-             String nuevoCostoStr = JOptionPane.showInputDialog(this, "Nuevo costo (entero):", viajeExistente.getCostoViaje());
-             if (nuevoCostoStr == null || nuevoCostoStr.isBlank()) return;
-             int nuevoCosto = Integer.parseInt(nuevoCostoStr.trim());
-
-             String nuevaPatente = JOptionPane.showInputDialog(this, "Nueva patente:", viajeExistente.getPatente());
-             if (nuevaPatente == null || nuevaPatente.isBlank()) return;
-
-             String nuevoOrigen = JOptionPane.showInputDialog(this, "Nuevo origen:", viajeExistente.getOrigen());
-             if (nuevoOrigen == null || nuevoOrigen.isBlank()) return;
-
-             String nuevoDestino = JOptionPane.showInputDialog(this, "Nuevo destino:", viajeExistente.getDestinoFinal());
-             if (nuevoDestino == null || nuevoDestino.isBlank()) return;
-
-             String nuevaSalida = JOptionPane.showInputDialog(this, "Nueva hora de salida (HH:MM):", viajeExistente.getHoraSalida());
-             if (nuevaSalida == null || nuevaSalida.isBlank()) return;
-
-             String nuevaLlegada = JOptionPane.showInputDialog(this, "Nueva hora de llegada (HH:MM):", viajeExistente.getHoraLlegada());
-             if (nuevaLlegada == null || nuevaLlegada.isBlank()) return;
-
-             miEmpresa.modificarViaje(idViaje, nuevoCosto, nuevaPatente.trim(),
-                                      nuevoOrigen.trim(), nuevoDestino.trim(),
-                                      nuevaSalida.trim(), nuevaLlegada.trim());
-         } catch (NumberFormatException ex) {
-             JOptionPane.showMessageDialog(this, "ID o costo inválido.");
-         }
-     });
-
-     // 6) Eliminar Viaje
-     btnEliminarViajes.addActionListener(e1 -> {
-         try {
-             String idStr = JOptionPane.showInputDialog(this, "ID del viaje a eliminar:");
-             if (idStr == null || idStr.isBlank()) return;
-             int idViaje = Integer.parseInt(idStr.trim());
-             miEmpresa.eliminarViaje(idViaje);
-         } catch (NumberFormatException ex) {
-             JOptionPane.showMessageDialog(this, "ID inválido.");
-         }
-     });
-
-
-     // ==== PERSONAS ====
-
-     // 7) Agregar Persona
-     btnAgregarUsuarios.addActionListener(e1 -> {
-         try {
-             String rut = JOptionPane.showInputDialog(this, "RUT (12345678-9):");
-             if (rut == null || rut.isBlank()) return;
-
-             String nombre = JOptionPane.showInputDialog(this, "Nombre:");
-             if (nombre == null || nombre.isBlank()) return;
-
-             String saldoStr = JOptionPane.showInputDialog(this, "Saldo (entero):");
-             if (saldoStr == null || saldoStr.isBlank()) return;
-             int saldo = Integer.parseInt(saldoStr.trim());
-
-             persona nuevaPersona = new persona(nombre.trim(), rut.trim(), saldo);
-             miEmpresa.agregarPersona(nuevaPersona);
-         } catch (NumberFormatException ex) {
-             JOptionPane.showMessageDialog(this, "Saldo inválido.");
-         }
-     });
-
-     // 8) Modificar Persona
-     btnNewButton.addActionListener(e1 -> { // "13. Modificar Usuarios"
-         try {
-             String rut = JOptionPane.showInputDialog(this, "RUT de la persona a modificar:");
-             if (rut == null || rut.isBlank()) return;
-
-             persona personaExistente = miEmpresa.obtenerPersonaPorRut(rut.trim());
-             if (personaExistente == null) {
-                 JOptionPane.showMessageDialog(this, "No se encontró persona con ese RUT.");
-                 return;
-             }
-
-             String nuevoNombre = JOptionPane.showInputDialog(this, "Nuevo nombre:", personaExistente.getNombre());
-             if (nuevoNombre == null || nuevoNombre.isBlank()) return;
-
-             String nuevoSaldoStr = JOptionPane.showInputDialog(this, "Nuevo saldo (entero):", personaExistente.getSaldoDisponible());
-             if (nuevoSaldoStr == null || nuevoSaldoStr.isBlank()) return;
-             int nuevoSaldo = Integer.parseInt(nuevoSaldoStr.trim());
-
-             miEmpresa.modificarPersona(rut.trim(), nuevoNombre.trim(), nuevoSaldo);
-         } catch (NumberFormatException ex) {
-             JOptionPane.showMessageDialog(this, "Saldo inválido.");
-         }
-     });
-
-     // 9) Eliminar Persona
-     btnNewButton_1.addActionListener(e1 -> { //
-         String rut = JOptionPane.showInputDialog(this, "RUT de la persona a eliminar:");
-         if (rut == null || rut.isBlank()) return;
-         miEmpresa.eliminarPersona(rut.trim());
-     });
-
-     btnInformacionBuses.addActionListener(e1 -> {
-    	    JScrollPane scroll = miEmpresa.mostrarBusesComoScroll();
-    	    JOptionPane.showMessageDialog(this, scroll, "Buses", JOptionPane.INFORMATION_MESSAGE);
-    	});
-
-    btnMostrarInformacionViajes.addActionListener(e1 -> {
-    	    JScrollPane scroll = miEmpresa.mostrarViajesComoScroll();
-    	    JOptionPane.showMessageDialog(this, scroll, "Viajes", JOptionPane.INFORMATION_MESSAGE);
-    	});
-    
-         
+    public void registrarBus(bus busNuevo) {
+    	busPorPatente.put(busNuevo.getPatente(), busNuevo);
+    }
+
+    public void registrarViaje(viaje viajeNuevo) {
+        viajesPorId.put(viajeNuevo.getViajeID(), viajeNuevo);
     }
     
+    public void registrarPersona(persona personaNueva) {
+    	getPersonasPorRut().put(personaNueva.getRut(), personaNueva);
+    }
+
+    public bus obtenerBusPorPatente(String patente) {
+        return busPorPatente.get(patente);
+    }
+
+    public viaje obtenerViajePorId(int id) {
+        return viajesPorId.get(id);
+    }
+    
+    public persona obtenerPersonaPorRut(String rut) {
+        return getPersonasPorRut().get(rut);
+    }
+    
+    public void menuPrincipal() throws IOException {
+    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    	
+    	int menuAbrir = -1;
+    	
+    	while(menuAbrir != 0) {
+    	
+    		System.out.println("¡Bienvenido a +Turbus!");
+        	System.out.println("");
+        	System.out.println("¿Que quieres hacer?");
+        	System.out.println("----------------------------------");
+        	System.out.println("OPCIONES");
+        	System.out.println("----------------------------------");
+        	System.out.println("1.Registrarse");
+        	System.out.println("2.Comprar pasajes");
+        	System.out.println("3.Cancelar pasaje");
+        	System.out.println("4.Mostrar pasajes por rut");
+        	System.out.println("5.Mostrar usuarios por rut");
+        	System.out.println("0.Salir");
+        	
+        	menuAbrir = Integer.parseInt(br.readLine());
+    		
+	    switch(menuAbrir){
+	    	case 1:
+	    		System.out.println("Registro de usuario.");
+	    		registrarUsuario();
+	    		break;		
+	    	case 2:
+	    		menuCompra();
+	    		break;
+	    			
+	    	case 3:
+	    		System.out.println("Por ahora no tenemos esta funcion disponible, intenta mas tarde (cancelar)");
+	    		break;
+	    			
+	    	case 4:
+	    		mostrarPasajesDePersonaPorRut();
+	    		break;
+	    		
+	    	case 5:
+	    		mostrarPersonas();
+	    		break;
+	    		
+	    	case 0:
+	    		System.out.print("Saliendo de +Turbus...");
+	    		break;
+	    	}
+    	}
+    }
+   
+
+    public void registrarUsuario() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        System.out.println("Ingrese su RUT: (Formato: 123456789-0)");
+        String rutIngresado = br.readLine();
+        
+        if (getPersonasPorRut().containsKey(rutIngresado) == true) {
+            System.out.println("Ya existe una persona con ese RUT.");
+            return;
+        }
+        
+        System.out.println("Ingrese su nombre: ");
+        String nombreIngresado = br.readLine();
+
+    	System.out.println("Ingrese su saldo disponible: (Formato: 10.000");
+    	int saldo = Integer.parseInt(br.readLine());
+    		
+    	persona nuevaPersona = new persona(nombreIngresado, rutIngresado, saldo);
+    	System.out.println("Cliente agregado correctamente");
+    	this.registrarPersona(nuevaPersona);
+    }
+
+    public void mostrarPersonas() {
+        if (getPersonasPorRut().isEmpty()) {
+            System.out.println("No hay personas registradas.");
+            return;
+        }
+
+        System.out.println("Personas registradas en la empresa:");
+        System.out.println("-----------------------------------");
+
+        for (persona personaActual : getPersonasPorRut().values()) {
+            System.out.println(
+                "Nombre: " + personaActual.getNombre()
+                + " | RUT: " + personaActual.getRut()
+                + " | Saldo: " + personaActual.getSaldoDisponible()
+            );
+        }
+    }
+    
+    public float obtenerGananciaViaje(viaje viajeRecibido) {
+    	
+    	float costoViajeParaEmpresa = viajeRecibido.getCostoParaEmpresa();
+    	float costoPorPasajero = viajeRecibido.getCostoViaje();
+    	float cantidadPasajeros = viajeRecibido.getCantidadPasajeros();
+    	
+    	return (float) (costoViajeParaEmpresa - (costoPorPasajero * cantidadPasajeros));
+    }
+    
+    public void obtenerGananciaTodosViajes() throws IOException {
+    	float gananciaTotal = 0;
+    	float cantidadViajes = 0;
+        for (viaje viajeActual : viajesPorId.values()) {
+        	gananciaTotal += this.obtenerGananciaViaje(viajeActual);
+        	cantidadViajes++;
+        }
+
+       System.out.println("+Turbus en " + cantidadViajes + "a generado una ganancia de " + gananciaTotal);
+    }
+    
+    public JScrollPane construirScrollBusesYViajesGananciaMayor(float umbral) {
+        JPanel panelPrincipal = new JPanel();
+        panelPrincipal.setLayout(new BoxLayout(panelPrincipal, BoxLayout.Y_AXIS));
+
+        panelPrincipal.add(new JLabel("Buses con ganancia mayor a " + umbral + ":"));
+
+        boolean alguno = false;
+
+        for (viaje viajeActual : viajesPorId.values()) {
+            float ganancia = this.obtenerGananciaViaje(viajeActual);
+            ganancia *= -1; 
+            
+            if (ganancia > umbral || umbral == -120) {
+                bus busActual = this.obtenerBusPorPatente(viajeActual.getPatente());
+                
+                panelPrincipal.add(Box.createVerticalStrut(10));
+                panelPrincipal.add(new JLabel("Ganancia: " + ganancia));
+
+                if (busActual != null) {
+                    panelPrincipal.add(busActual.infoBusComoPanel());
+                } else {
+                    panelPrincipal.add(new JLabel("No se encontró el bus con patente " + viajeActual.getPatente()));
+                }
+
+                panelPrincipal.add(viajeActual.infoViajeCompletaComoPanel());
+                panelPrincipal.add(Box.createRigidArea(new Dimension(0, 10))); // separador visual
+                alguno = true;
+            }
+        }
+
+        if (alguno == false) {
+            panelPrincipal.add(new JLabel("No hay viajes con ganancia superior al umbral."));
+        }
+
+        JScrollPane scroll = new JScrollPane(panelPrincipal);
+        scroll.setPreferredSize(new Dimension(900, 600)); // ventana más ancha
+        scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+
+        return scroll;
+    }
+    
+    
+    public void mostrarPasajesDePersonaPorRut() throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+        System.out.println("Ingrese el RUT de la persona: ");
+        String rutIngresado = reader.readLine();
+
+        persona personaEncontrada = getPersonasPorRut().get(rutIngresado);
+
+        if (personaEncontrada == null) {
+            System.out.println("No existe persona con ese RUT.");
+            return;
+        }
+
+        personaEncontrada.mostrarPasajes();
+    }
+    
+    public boolean existeRut(String rut) {
+        if (rut == null) return false;
+        return personasPorRut.containsKey(rut.trim());
+    }
+    
+    public boolean registrarPersonaSegura(persona personaNueva) {
+        if (personaNueva == null || personaNueva.getRut() == null) {
+            JOptionPane.showMessageDialog(null, "Datos inválidos.");
+            return false;
+        }
+        String rut = personaNueva.getRut().trim();
+        if (existeRut(rut)) {
+            JOptionPane.showMessageDialog(null, "Ya existe una persona con el RUT " + rut + ".");
+            return false;
+        }
+        personasPorRut.put(rut, personaNueva);
+        JOptionPane.showMessageDialog(null, "Persona agregada: " + rut);
+        return true;
+    }
+    
+    public ArrayList<String> obtenerDestinosUnicos() {
+        ArrayList<String> destinosUnicos = new ArrayList<String>();
+
+        for (viaje viajeActual : viajesPorId.values()) { //segun google esto es como un "por cada"
+        	
+            String destino = viajeActual.getDestinoFinal();
+            
+            if (destinosUnicos.contains(destino) == false) {
+                destinosUnicos.add(destino);
+            }
+        }
+
+        return destinosUnicos;
+    }
+    
+	 public ArrayList<viaje> obtenerViajesPorDestino(String destino) {
+	    ArrayList<viaje> viajesDelDestino = new ArrayList<viaje>();
+
+        for (viaje viajeActual : viajesPorId.values()) {
+        	
+            if (viajeActual.getDestinoFinal().equals(destino) == true) {
+            	
+                viajesDelDestino.add(viajeActual);
+            }
+        }
+
+        return viajesDelDestino;
+    }
+    
+	 public Map<String, persona> getPersonasPorRut() {
+		return personasPorRut;
+	}
+
+	 public void setPersonasPorRut(Map<String, persona> personasPorRut) {
+		this.personasPorRut = personasPorRut;
+	 }
+	 
+	 public boolean modificarPasaje(String rut, int idPasaje, Integer nuevoAsiento, String nuevaFecha) {
+		    persona cliente = obtenerPersonaPorRut(rut);
+		    if (cliente == null) {
+		        JOptionPane.showMessageDialog(null, "No existe persona con ese RUT.");
+		        return false;
+		    }
+		    pasaje pasajeCliente = null;
+		    for (pasaje pa : cliente.getPasajes()) {
+		        if (pa.getIdPasaje() == idPasaje) {
+		            pasajeCliente = pa;
+		            break;
+		        }
+		    }
+		    if (pasajeCliente == null) {
+		        JOptionPane.showMessageDialog(null, "El cliente no tiene un pasaje con ID " + idPasaje + ".");
+		        return false;
+		    }
+		    viaje v = obtenerViajePorId(pasajeCliente.getIdPasaje());
+		    if (v == null) {
+		        JOptionPane.showMessageDialog(null, "No existe un viaje con ID " + pasajeCliente.getIdPasaje() + ".");
+		        return false;
+		    }
+		    bus b = obtenerBusPorPatente(v.getPatente());
+		    if (b == null) {
+		        JOptionPane.showMessageDialog(null, "No se encontró el bus para el viaje.");
+		        return false;
+		    }
+		    if (nuevoAsiento != null) {
+		        int asientoActual = pasajeCliente.getAsiento();
+		        int asientoNuevo = nuevoAsiento.intValue();
+
+		        if (!b.asientoEnRango(asientoNuevo)) {
+		            JOptionPane.showMessageDialog(null, "Asiento fuera de rango.");
+		            return false;
+		        }
+		        if (asientoNuevo != asientoActual) {
+		            if (b.asientoOcupado(asientoNuevo)) {
+		                JOptionPane.showMessageDialog(null, "El asiento " + asientoNuevo + " ya está ocupado.");
+		                return false;
+		            }
+
+		            b.liberarAsiento(asientoActual);
+		            if (!b.ocuparAsiento(asientoNuevo)) {
+		                b.ocuparAsiento(asientoActual);
+		                JOptionPane.showMessageDialog(null, "No se pudo ocupar el nuevo asiento.");
+		                return false;
+		            }
+		            pasajeCliente.setAsiento(asientoNuevo);
+		        }
+		    }
+		    if (nuevaFecha != null) {
+		        if (nuevaFecha.isBlank()) {
+		            pasajeCliente.setFecha(null);
+		        } else {
+		            pasajeCliente.setFecha(nuevaFecha.trim());
+		        }
+		    }
+		    JOptionPane.showMessageDialog(null, "Pasaje modificado correctamente.");
+		    return true;
+		}
+	 
+	 public boolean cancelarViaje(int idViaje) {
+		    viaje viajeCancelado = viajesPorId.get(idViaje);
+		    if (viajeCancelado == null) {
+		        JOptionPane.showMessageDialog(null, "No existe un viaje con ID " + idViaje + ".");
+		        return false;
+		    }
+		    bus busDelViaje = busPorPatente.get(viajeCancelado.getPatente());
+		    int pasajesEliminados = 0;
+		    int totalReembolsado = 0;
+
+		    for (persona personaActual : personasPorRut.values()) {
+		        ArrayList<pasaje> pasajes = personaActual.getPasajes();
+		        ArrayList<pasaje> nuevosPasajes = new ArrayList<pasaje>();
+
+		        for (pasaje p : pasajes) {
+		            if (p.getIdPasaje() == idViaje) {
+		                if (busDelViaje != null) {
+		                    busDelViaje.liberarAsiento(p.getAsiento());
+		                }
+		                int nuevoSaldo = personaActual.getSaldoDisponible() + p.getCostoPasaje();
+		                personaActual.setSaldoDisponible(nuevoSaldo);
+		                pasajesEliminados = pasajesEliminados + 1;
+		                totalReembolsado = totalReembolsado + p.getCostoPasaje();
+		            } else {
+		                nuevosPasajes.add(p);
+		            }
+		        }
+		        personaActual.setPasajes(nuevosPasajes);
+		    }
+		    viajesPorId.remove(idViaje);
+
+		    JOptionPane.showMessageDialog(
+		        null,
+		        "Viaje " + idViaje + " cancelado.\n" +
+		        "Pasajes eliminados: " + pasajesEliminados + "\n" +
+		        "Total reembolsado: " + totalReembolsado
+		    );
+		    return true;
+		}
+
+	 public void menuCompra() throws IOException {
+		    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+		    // 1) identificar persona
+		    System.out.println("Ingrese su RUT: ");
+		    String rutIngresado = br.readLine();
+
+		    persona personaCompradora = getPersonasPorRut().get(rutIngresado);
+		    if (personaCompradora == null) {
+		        System.out.println("No existe persona con ese RUT. Regístrese primero.");
+		        return;
+		    }
+
+		    // 2) destinos únicos 
+		    ArrayList<String> destinosUnicos = obtenerDestinosUnicos();
+		    if (destinosUnicos.size() == 0) {
+		        System.out.println("No hay viajes disponibles.");
+		        return;
+		    }
+
+		    System.out.println("Ingrese el destino:");
+		    int i = 0;
+		    while (i < destinosUnicos.size()) {
+		        System.out.println((i + 1) + ". " + destinosUnicos.get(i));
+		        i = i + 1;
+		    }
+
+		    int opcionDestino = Integer.parseInt(br.readLine());
+		    if (opcionDestino < 1 || opcionDestino > destinosUnicos.size()) {
+		        System.out.println("Opción de destino inválida.");
+		        return;
+		    }
+		    String destinoElegido = destinosUnicos.get(opcionDestino - 1);
+
+		    // 3) viajes por destino 
+		    ArrayList<viaje> viajesDelDestino = obtenerViajesPorDestino(destinoElegido);
+		    if (viajesDelDestino.size() == 0) {
+		        System.out.println("No hay viajes para ese destino.");
+		        return;
+		    }
+
+		    System.out.println("Ingrese el viaje según su horario de salida:");
+		    int j = 0;
+		    while (j < viajesDelDestino.size()) {
+		        viaje viajeActual = viajesDelDestino.get(j);
+		        System.out.println(
+		            (j + 1) + ". " +
+		            "Salida: " + viajeActual.getHoraSalida() +
+		            " | Llegada: " + viajeActual.getHoraLlegada() +
+		            " | Costo: " + viajeActual.getCostoViaje() +
+		            " | Patente bus: " + viajeActual.getPatente()
+		        );
+		        j = j + 1;
+		    }
+
+		    int opcionViaje = Integer.parseInt(br.readLine());
+		    if (opcionViaje < 1 || opcionViaje > viajesDelDestino.size()) {
+		        System.out.println("Opción de viaje inválida.");
+		        return;
+		    }
+		    viaje viajeElegido = viajesDelDestino.get(opcionViaje - 1);
+
+		    // 4) bus y asientos disponibles
+		    bus busDelViaje = busPorPatente.get(viajeElegido.getPatente());
+		    if (busDelViaje == null) {
+		        System.out.println("No se encontró el bus para este viaje.");
+		        return;
+		    }
+
+		    System.out.println("Asientos disponibles:");
+		    ArrayList<Integer> asientosDisponibles = new ArrayList<Integer>();
+		    int asientoCandidato = 1;
+		    while (asientoCandidato <= busDelViaje.getCapacidad()) {
+		        if (busDelViaje.asientoOcupado(asientoCandidato) == false) {
+		            asientosDisponibles.add(asientoCandidato);
+		        }
+		        asientoCandidato = asientoCandidato + 1;
+		    }
+
+		    if (asientosDisponibles.size() == 0) {
+		        System.out.println("No quedan asientos disponibles en este bus.");
+		        return;
+		    }
+
+		    int t = 0;
+		    while (t < asientosDisponibles.size()) {
+		        System.out.print(asientosDisponibles.get(t) + " ");
+		        t = t + 1;
+		    }
+		    System.out.println("");
+
+		    System.out.println("Ingrese el asiento que desea:");
+		    int asientoElegido = Integer.parseInt(br.readLine());
+
+		    if (busDelViaje.asientoEnRango(asientoElegido) == false) {
+		        System.out.println("Asiento fuera de rango.");
+		        return;
+		    }
+		    if (asientosDisponibles.contains(asientoElegido) == false) {
+		        System.out.println("Ese asiento no está disponible.");
+		        return;
+		    }
+
+		    // 5) fecha y precio
+		    System.out.println("Ingrese la fecha del viaje (YYYY-MM-DD):");
+		    String fechaElegida = br.readLine();
+		    
+		    if (fechaElegida != null && fechaElegida.isBlank()) {
+		    	fechaElegida = null;
+		    }
+
+		    int precioTotal = viajeElegido.getCostoViaje();
+		    System.out.println("Precio total del viaje: " + precioTotal);
+
+		    // 6) comprar
+		    boolean compraOk = personaCompradora.comprarPasaje(viajeElegido, busDelViaje, asientoElegido, fechaElegida);
+		    if (compraOk == true) {
+		        System.out.println("Compra realizada con éxito.");
+		    } else {
+		        System.out.println("No se pudo realizar la compra.");
+		    }
+		}
+	 
+	 public boolean exportarReporte(String rutaArchivo) {
+		    try (java.io.PrintWriter pw = new java.io.PrintWriter(
+		            new java.io.OutputStreamWriter(
+		                new java.io.FileOutputStream(rutaArchivo), java.nio.charset.StandardCharsets.UTF_8))) {
+
+		        // ===== BUSES =====
+		        pw.println("#BUSES");
+		        int idxBus = 1;
+		        for (bus b : busPorPatente.values()) {
+		            String nombreBus = "Bus" + idxBus++;
+		            java.util.List<Integer> au = (b.getAsientosUsados() == null) ? java.util.Collections.emptyList() : b.getAsientosUsados();
+		            String asientosTxt = (au.isEmpty()) ? "0" : (au.size() + " " + au.toString());
+
+		            pw.println(
+		                nombreBus + " — " +
+		                "Patente: " + nn(b.getPatente()) + ", " +
+		                "Capacidad: " + b.getCapacidad() + ", " +
+		                "Disponibilidad: " + b.getDisponibilidad() + ", " +
+		                "Tipo: " + b.getTipo() + ", " +
+		                "Asientos ocupados: " + asientosTxt
+		            );
+		        }
+		        pw.println();
+
+		        // ===== VIAJES =====
+		        pw.println("#VIAJES");
+		        for (viaje v : viajesPorId.values()) {
+		            pw.println(
+		                "Viaje ID " + v.getViajeID() + " — " +
+		                "Origen: " + nn(v.getOrigen()) + ", " +
+		                "Destino: " + nn(v.getDestinoFinal()) + ", " +
+		                "Salida: " + nn(v.getHoraSalida()) + ", " +
+		                "Llegada: " + nn(v.getHoraLlegada()) + ", " +
+		                "Patente: " + nn(v.getPatente()) + ", " +
+		                "Costo viaje: " + v.getCostoViaje() + ", " +
+		                "Costo empresa: " + v.getCostoParaEmpresa() + ", " +
+		                "Pasajeros: " + v.getCantidadPasajeros()
+		            );
+		        }
+		        pw.println();
+
+		        // ===== PERSONAS =====
+		        pw.println("#PERSONAS");
+		        int idxPersona = 1;
+		        for (persona p : personasPorRut.values()) {
+		            String nombre = (p.getNombre() != null && !p.getNombre().isEmpty()) ? p.getNombre() : ("Persona" + idxPersona++);
+		            int cant = (p.getPasajes() == null) ? 0 : p.getPasajes().size();
+		            pw.println(
+		                nombre + " (" + nn(p.getRut()) + ") — " +
+		                "Saldo: " + p.getSaldoDisponible() + ", " +
+		                "Pasajes: " + cant
+		            );
+		        }
+		        pw.println();
+
+		        // ===== PASAJES =====
+		        pw.println("#PASAJES");
+		        for (persona p : personasPorRut.values()) {
+		            if (p.getPasajes() == null) continue;
+		            for (pasaje pa : p.getPasajes()) {
+		                pw.println(
+		                    "Pasaje " + pa.getIdPasaje() + " — " +
+		                    "Dueño: " + nn(p.getRut()) + ", " +
+		                    "Destino: " + nn(pa.getDestinoFinal()) + ", " +
+		                    "Fecha: " + nn(pa.getFecha()) + ", " +
+		                    "Salida: " + nn(pa.getHoraSalida()) + ", " +
+		                    "Llegada: " + nn(pa.getHoraLlegada()) + ", " +
+		                    "Asiento: " + pa.getAsiento() + ", " +
+		                    "Costo: " + pa.getCostoPasaje()
+		                );
+		            }
+		        }
+
+		        pw.flush();
+		        return true;
+		    } catch (Exception e) {
+		        System.out.println("Error al exportar reporte: " + e.getMessage());
+		        return false;
+		    }
+		}
+
+		private String nn(String s) {
+		    return (s == null || s.isEmpty()) ? "(sin dato)" : s;
+		}
+		
+		
+		//Metodos agregar,modificar,eliminar
+		public void agregarBus(bus bus) {
+	        if (busPorPatente.containsKey(bus.getPatente())) {
+	        	JOptionPane.showMessageDialog(null, "Ya existe un bus con patente " + bus.getPatente());
+	        } else {
+	        	busPorPatente.put(bus.getPatente(), bus);
+	        	JOptionPane.showMessageDialog(null, "Bus con patente:"+ bus.getPatente() +"agregado ");
+	        }
+	    }
+
+		public boolean eliminarBus(String patente) {
+	        bus eliminado = busPorPatente.remove(patente);
+	        if (eliminado != null) {
+	        	JOptionPane.showMessageDialog(null, "Bus con patente " + patente + " eliminado");
+	            return true;
+	        } else {
+	        	JOptionPane.showMessageDialog(null, "No se encontró un bus con patente " + patente);
+	            return false;
+	        }
+	    }
+
+		public void agregarViaje(viaje viaje) {
+	        if (viajesPorId.containsKey(viaje.getViajeID())) {
+	        	JOptionPane.showMessageDialog(null, "Ya existe un viaje con id " + viaje.getViajeID());
+	        } else {
+	        	viajesPorId.put(viaje.getViajeID(), viaje);
+	        	JOptionPane.showMessageDialog(null, "Viaje agregado: " + viaje.getViajeID());
+	        }
+	    }
+	   
+
+		public boolean eliminarViaje(int viajeId) {
+	        viaje eliminado = viajesPorId.remove(viajeId);
+	        if (eliminado != null) {
+	        	JOptionPane.showMessageDialog(null, "Viaje eliminado: " + viajeId);
+	            return true;
+	        } else {
+	        	JOptionPane.showMessageDialog(null, "No se encontró un viaje con id " + viajeId);
+	            return false;
+	        }
+	    }
+	   
+		public void modificarViaje(int id, int nuevoCosto, String nuevaPatente,String nuevoOrigen, String nuevoDestino,String nuevaSalida, String nuevaLlegada) {
+	        viaje viaje = viajesPorId.get(id);
+	        if (viaje != null) {
+	            viaje.setCostoViaje(nuevoCosto);
+	            viaje.setPatente(nuevaPatente);
+	            viaje.setOrigen(nuevoOrigen);
+	            viaje.setDestinoFinal(nuevoDestino);
+	            viaje.setHoraSalida(nuevaSalida);
+	            viaje.setHoraLlegada(nuevaLlegada);
+	            JOptionPane.showMessageDialog(null, "Viaje modificado: " + id);
+	        } else {
+	        	JOptionPane.showMessageDialog(null, "No se encontró un viaje con ID " + id);
+	        }
+	    }
+		public void agregarPersona(persona persona) {
+	        if (personasPorRut.containsKey(persona.getRut())) {
+	        	JOptionPane.showMessageDialog(null, "Ya existe una persona con ese RUT.");
+	        } else {
+	        	personasPorRut.put(persona.getRut(), persona);
+	        	JOptionPane.showMessageDialog(null, "Persona agregada: " + persona.getRut());
+	        }
+	    }
+
+		public boolean eliminarPersona(String rut) {
+	        persona eliminada = personasPorRut.remove(rut);
+	        if (eliminada != null) {
+	        	JOptionPane.showMessageDialog(null, "Persona eliminada: " + rut);
+	            return true;
+	        } else {
+	        	JOptionPane.showMessageDialog(null, "No se encontró persona con ese RUT.");
+	            return false;
+	        }
+	    }
+		public void modificarPersona(String rut, String nuevoNombre, int nuevoSaldo) {
+			persona  persona = personasPorRut.get(rut);
+		        if (persona != null) {
+		            persona.setNombre(nuevoNombre);
+		            persona.setSaldoDisponible(nuevoSaldo);
+		            JOptionPane.showMessageDialog(null, "Persona modificada");
+		        } else {
+		        	JOptionPane.showMessageDialog(null, "No se encontró persona con ese RUT.");
+		    }
+		}
+		
+		public JScrollPane mostrarBusesComoScroll() {
+		    JPanel panel = new JPanel();
+		    panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+		    if (busPorPatente.isEmpty()) {
+		        panel.add(new JLabel("No hay buses registrados."));
+		    } else {
+		        for (bus b : busPorPatente.values()) {
+		            JLabel label = new JLabel(
+		                "Patente: " + b.getPatente() +
+		                " | Capacidad: " + b.getCapacidad() +
+		                " | Disponibilidad: " + b.getDisponibilidad() +
+		                " | Tipo: " + b.getTipo() +
+		                " | Asientos ocupados: " + b.getAsientosUsados()
+		            );
+		            label.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		            panel.add(label);
+		        }
+		    }
+
+		    JScrollPane scroll = new JScrollPane(panel);
+		    scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		    return scroll;
+		}
+
+		
+		public JScrollPane mostrarViajesComoScroll() {
+		    JPanel panel = new JPanel();
+		    panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+		    if (viajesPorId.isEmpty()) {
+		        panel.add(new JLabel("No hay viajes registrados."));
+		    } else {
+		        for (viaje v : viajesPorId.values()) {
+		            JLabel label = new JLabel(
+		                "ID: " + v.getViajeID() +
+		                " | Origen: " + v.getOrigen() +
+		                " | Destino: " + v.getDestinoFinal() +
+		                " | Salida: " + v.getHoraSalida() +
+		                " | Llegada: " + v.getHoraLlegada() +
+		                " | Patente: " + v.getPatente() +
+		                " | Costo: " + v.getCostoViaje() +
+		                " | Costo Empresa: " + v.getCostoParaEmpresa() +
+		                " | Pasajeros: " + v.getCantidadPasajeros()
+		            );
+		            label.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		            panel.add(label);
+		        }
+		    }
+
+		    JScrollPane scroll = new JScrollPane(panel);
+		    scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		    return scroll;
+		}
+
 }
