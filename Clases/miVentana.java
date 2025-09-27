@@ -68,20 +68,15 @@ public class miVentana extends JFrame {
         btnModificarPasajes.setBackground(new Color(240, 240, 240));
         btnModificarPasajes.setBounds(49, 401, 218, 23);
         panelMenu.add(btnModificarPasajes);
-        
-        JButton btnMostrarUsuarios = new JButton("6. Mostrar usuarios");
-        btnMostrarUsuarios.setBackground(new Color(240, 240, 240));
-        btnMostrarUsuarios.setBounds(49, 435, 220, 23);
-        panelMenu.add(btnMostrarUsuarios);
 
         JButton btnAdministracion = new JButton("7. Administracion de datos");
         btnAdministracion.setBackground(new Color(240, 240, 240));
-        btnAdministracion.setBounds(49, 469, 218, 23);
+        btnAdministracion.setBounds(49, 435, 218, 23);
         panelMenu.add(btnAdministracion);
 
         JButton btnSalir = new JButton("0. Salir");
         btnSalir.setBackground(new Color(240, 240, 240));
-        btnSalir.setBounds(49, 503, 89, 23);
+        btnSalir.setBounds(49, 469, 89, 23);
         panelMenu.add(btnSalir);
 
         JLabel lblBienvenido = new JLabel("Bienvenido a +Turbus!");
@@ -109,7 +104,7 @@ public class miVentana extends JFrame {
 			}
 		});
 		btnInformacionBuses.setBackground(new Color(240, 240, 240));
-		btnInformacionBuses.setBounds(133, 266, 220, 23);
+		btnInformacionBuses.setBounds(22, 266, 220, 23);
 		panelAdmin.add(btnInformacionBuses);
 		
 		JButton btnAgregarBuses = new JButton("2. Agregar Buses");
@@ -118,23 +113,23 @@ public class miVentana extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnAgregarBuses.setBounds(133, 300, 220, 23);
+		btnAgregarBuses.setBounds(22, 300, 220, 23);
 		panelAdmin.add(btnAgregarBuses);
 		
 		JButton btnModificarBuses = new JButton("3. Modificar Buses");
 		btnModificarBuses.setBackground(new Color(240, 240, 240));
-		btnModificarBuses.setBounds(133, 334, 220, 23);
+		btnModificarBuses.setBounds(22, 334, 220, 23);
 		panelAdmin.add(btnModificarBuses);
 		
 		
 		JButton btnEliminarBuses = new JButton("4. Eliminar Buses");
 		btnEliminarBuses.setBackground(new Color(240, 240, 240));
-		btnEliminarBuses.setBounds(133, 368, 220, 23);
+		btnEliminarBuses.setBounds(22, 368, 220, 23);
 		panelAdmin.add(btnEliminarBuses);
 		
         JButton btnExportarTxt = new JButton("5. Exportar reporte");
         btnExportarTxt.setBackground(new Color(240, 240, 240));
-        btnExportarTxt.setBounds(133, 402, 220, 23);
+        btnExportarTxt.setBounds(22, 402, 220, 23);
         panelAdmin.add(btnExportarTxt);
 		
 		JButton btnMostrarInformacionViajes = new JButton("6. Mostrar Informacion Viajes");
@@ -143,7 +138,7 @@ public class miVentana extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnMostrarInformacionViajes.setBounds(386, 266, 220, 23);
+		btnMostrarInformacionViajes.setBounds(260, 266, 220, 23);
 		panelAdmin.add(btnMostrarInformacionViajes);
 		
 		JButton btnAgregarViajes = new JButton("7. Agregar Viajes");
@@ -152,17 +147,17 @@ public class miVentana extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnAgregarViajes.setBounds(386, 300, 220, 23);
+		btnAgregarViajes.setBounds(260, 300, 220, 23);
 		panelAdmin.add(btnAgregarViajes);
         
 		JButton BtnModificarViajes = new JButton("8. Modificar Viajes");
 		BtnModificarViajes.setBackground(new Color(240, 240, 240));
-		BtnModificarViajes.setBounds(386, 334, 220, 23);
+		BtnModificarViajes.setBounds(260, 334, 220, 23);
 		panelAdmin.add(BtnModificarViajes);
 		
 		JButton btnEliminarViajes = new JButton("9. Eliminar Viajes");
 		btnEliminarViajes.setBackground(new Color(240, 240, 240));
-		btnEliminarViajes.setBounds(386, 368, 220, 23);
+		btnEliminarViajes.setBounds(260, 368, 220, 23);
 		panelAdmin.add(btnEliminarViajes);
 
 		
@@ -172,17 +167,33 @@ public class miVentana extends JFrame {
         	}
         });
         btnUmbralBusesViajes.setBackground(new Color(240, 240, 240));
-        btnUmbralBusesViajes.setBounds(386, 402, 220, 23);
+        btnUmbralBusesViajes.setBounds(260, 402, 220, 23);
         panelAdmin.add(btnUmbralBusesViajes);
 	
+        JButton btnMostrarUsuarios = new JButton("11. Mostrar usuarios");
+        btnMostrarUsuarios.setBackground(new Color(240, 240, 240));
+        btnMostrarUsuarios.setBounds(490, 266, 220, 23);
+        panelAdmin.add(btnMostrarUsuarios);
         
      // Botón Volver al menú principal
         JButton btnVolverAdmin = new JButton("0. Volver");
         btnVolverAdmin.setBackground(new Color(240, 240, 240));
-        btnVolverAdmin.setBounds(260, 437, 220, 23);
+        btnVolverAdmin.setBounds(490, 402, 220, 23);
         panelAdmin.add(btnVolverAdmin);
         
 		contentPane.add(panelAdmin, "administracion");
+		
+		JButton btnAgregarUsuarios = new JButton("12. Agregar Usuarios");
+		btnAgregarUsuarios.setBounds(490, 300, 220, 23);
+		panelAdmin.add(btnAgregarUsuarios);
+		
+		JButton btnNewButton = new JButton("13. Modificar Usuarios");
+		btnNewButton.setBounds(490, 334, 220, 23);
+		panelAdmin.add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("14. Eliminar Usuarios");
+		btnNewButton_1.setBounds(490, 368, 220, 23);
+		panelAdmin.add(btnNewButton_1);
 		
 		
 		// Navegación: menú principal -> administración
@@ -343,7 +354,7 @@ public class miVentana extends JFrame {
 
         JButton btnVolverUsuarios = new JButton("Volver");
         panelUsuarios.add(btnVolverUsuarios, BorderLayout.SOUTH);
-        btnVolverUsuarios.addActionListener(e1 -> cardLayout.show(contentPane, "menu"));
+        btnVolverUsuarios.addActionListener(e1 -> cardLayout.show(contentPane, "administracion"));
 
         contentPane.add(panelUsuarios, "MostrarUsuarios");
 
