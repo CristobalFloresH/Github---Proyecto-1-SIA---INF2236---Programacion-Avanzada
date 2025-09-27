@@ -1,6 +1,9 @@
 package Package;
 
 import java.util.*;
+
+import javax.swing.JOptionPane;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
@@ -323,7 +326,6 @@ public class empresa {
 		        return;
 		    }
 
-		    // 5) fecha y precio
 		    System.out.println("Ingrese la fecha del viaje (YYYY-MM-DD):");
 		    String fechaElegida = br.readLine();
 		    
@@ -334,12 +336,72 @@ public class empresa {
 		    int precioTotal = viajeElegido.getCostoViaje();
 		    System.out.println("Precio total del viaje: " + precioTotal);
 
-		    // 6) comprar
 		    boolean compraOk = personaCompradora.comprarPasaje(viajeElegido, busDelViaje, asientoElegido, fechaElegida);
 		    if (compraOk == true) {
 		        System.out.println("Compra realizada con éxito.");
 		    } else {
 		        System.out.println("No se pudo realizar la compra.");
 		    }
+		}
+	 
+	 public boolean modificarPasaje(String rut, int idPasaje, Integer nuevoAsiento, String nuevaFecha) {
+		    persona cliente = obtenerPersonaPorRut(rut);
+		    if (cliente == null) {
+		        JOptionPane.showMessageDialog(null, "No existe persona con ese RUT.");
+		        return false;
+		    }
+		    pasaje pasajeCliente = null;
+		    for (pasaje pa : cliente.getPasajes()) {
+		        if (pa.getIdPasaje() == idPasaje) {
+		            pasajeCliente = pa;
+		            break;
+		        }
+		    }
+		    if (pasajeCliente == null) {
+		        JOptionPane.showMessageDialog(null, "El cliente no tiene un pasaje con ID " + idPasaje + ".");
+		        return false;
+		    }
+		    viaje v = obtenerViajePorId(pasajeCliente.getIdPasaje());
+		    if (v == null) {
+		        JOptionPane.showMessageDialog(null, "No existe un viaje con ID " + pasajeCliente.getIdPasaje() + ".");
+		        return false;
+		    }
+		    bus b = obtenerBusPorPatente(v.getPatente());
+		    if (b == null) {
+		        JOptionPane.showMessageDialog(null, "No se encontró el bus para el viaje.");
+		        return false;
+		    }
+		    if (nuevoAsiento != null) {
+		        int asientoActual = pasajeCliente.getAsiento();
+		        int asientoNuevo = nuevoAsiento.intValue();
+
+		        if (!b.asientoEnRango(asientoNuevo)) {
+		            JOptionPane.showMessageDialog(null, "Asiento fuera de rango.");
+		            return false;
+		        }
+		        if (asientoNuevo != asientoActual) {
+		            if (b.asientoOcupado(asientoNuevo)) {
+		                JOptionPane.showMessageDialog(null, "El asiento " + asientoNuevo + " ya está ocupado.");
+		                return false;
+		            }
+
+		            b.liberarAsiento(asientoActual);
+		            if (!b.ocuparAsiento(asientoNuevo)) {
+		                b.ocuparAsiento(asientoActual);
+		                JOptionPane.showMessageDialog(null, "No se pudo ocupar el nuevo asiento.");
+		                return false;
+		            }
+		            pasajeCliente.setAsiento(asientoNuevo);
+		        }
+		    }
+		    if (nuevaFecha != null) {
+		        if (nuevaFecha.isBlank()) {
+		            pasajeCliente.setFecha(null);
+		        } else {
+		            pasajeCliente.setFecha(nuevaFecha.trim());
+		        }
+		    }
+		    JOptionPane.showMessageDialog(null, "Pasaje modificado correctamente.");
+		    return true;
 		}
 }
