@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 //import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 //import java.awt.event.ActionEvent;
 
 public class miVentana extends JFrame {
@@ -44,32 +46,42 @@ public class miVentana extends JFrame {
 
         JButton btnRegistro = new JButton("1. Registrarse");
         btnRegistro.setBackground(new Color(240, 240, 240));
-        btnRegistro.setBounds(49, 320, 177, 23);
+        btnRegistro.setBounds(49, 266, 177, 23);
         panelMenu.add(btnRegistro);
 
         JButton btnComprar = new JButton("2. Comprar pasajes");
         btnComprar.setBackground(new Color(240, 240, 240));
-        btnComprar.setBounds(49, 354, 177, 23);
+        btnComprar.setBounds(49, 300, 177, 23);
         panelMenu.add(btnComprar);
 
         JButton btnCancelar = new JButton("3. Cancelar pasaje");
         btnCancelar.setBackground(new Color(240, 240, 240));
-        btnCancelar.setBounds(49, 388, 177, 23);
+        btnCancelar.setBounds(49, 334, 177, 23);
         panelMenu.add(btnCancelar);
 
         JButton btnMostrarPasajes = new JButton("4. Mostrar pasajes");
         btnMostrarPasajes.setBackground(new Color(240, 240, 240));
-        btnMostrarPasajes.setBounds(49, 422, 177, 23);
+        btnMostrarPasajes.setBounds(49, 366, 177, 23);
         panelMenu.add(btnMostrarPasajes);
+        
+        JButton btnModificarPasajes = new JButton("5. Modificar pasaje");
+        btnModificarPasajes.setBackground(new Color(240, 240, 240));
+        btnModificarPasajes.setBounds(49, 401, 177, 23);
+        panelMenu.add(btnModificarPasajes);
 
-        JButton btnMostrarUsuarios = new JButton("5. Mostrar usuarios");
+        JButton btnAdministracion = new JButton("6. Administracion");
+        btnAdministracion.setBackground(new Color(240, 240, 240));
+        btnAdministracion.setBounds(49, 435, 177, 23);
+        panelMenu.add(btnAdministracion);
+        
+        JButton btnMostrarUsuarios = new JButton("7. Mostrar usuarios");
         btnMostrarUsuarios.setBackground(new Color(240, 240, 240));
-        btnMostrarUsuarios.setBounds(49, 456, 177, 23);
+        btnMostrarUsuarios.setBounds(49, 469, 177, 23);
         panelMenu.add(btnMostrarUsuarios);
 
         JButton btnSalir = new JButton("0. Salir");
         btnSalir.setBackground(new Color(240, 240, 240));
-        btnSalir.setBounds(49, 490, 89, 23);
+        btnSalir.setBounds(49, 503, 89, 23);
         panelMenu.add(btnSalir);
 
         JLabel lblBienvenido = new JLabel("Bienvenido a +Turbus!");
@@ -77,6 +89,8 @@ public class miVentana extends JFrame {
         lblBienvenido.setBounds(64, 24, 700, 105);
         panelMenu.add(lblBienvenido);
         contentPane.add(panelMenu, "menu");
+       
+             
 
         // Panel de Registro
         panelRegistrar = new JPanel();
@@ -123,22 +137,22 @@ public class miVentana extends JFrame {
         btnSalir.addActionListener(e3 -> System.exit(0));
 
         btnGuardar.addActionListener(e4 -> {
-        	try {
-        		//Excepcion error ingreso de datos
+            try {
                 String rut = txtRut.getText();
                 String nombre = txtNombre.getText();
                 String saldoStr = txtSaldo.getText();
 
-                if (!nombre.matches("[a-zA-Z ]+")) {
-                    throw new Exception("El nombre solo puede contener letras y espacios.");
+                // Validaciones con excepciones personalizadas
+                if (nombre == null || nombre.trim().isEmpty() == true || nombre.matches("[a-zA-Z ]+") == false) {
+                    throw new nombreInvalidoException("El nombre solo puede contener letras y espacios.");
                 }
-                if (!rut.matches("\\d{7,8}-[\\dkK]")) {
-                    throw new Exception("El RUT debe tener formato 12345678-9.");
+                if (rut == null || rut.trim().isEmpty() == true || rut.matches("\\d{7,8}-[\\dkK]") == false) {
+                    throw new rutInvalidoException("El RUT debe tener formato 12345678-9.");
                 }
 
-                int saldo = Integer.parseInt(saldoStr);
+                int saldo = Integer.parseInt(saldoStr); // si falla, cae en NumberFormatException
 
-                persona p = new persona(nombre, rut, saldo);
+                persona p = new persona(nombre.trim(), rut.trim(), saldo);
                 miEmpresa.registrarPersona(p);
 
                 JOptionPane.showMessageDialog(null, "Usuario registrado correctamente!");
@@ -148,9 +162,14 @@ public class miVentana extends JFrame {
                 cardLayout.show(contentPane, "menu");
 
             } catch (NumberFormatException nfe) {
-                JOptionPane.showMessageDialog(null, "El saldo debe ser un número entero."); 
-            } catch (Exception ex) { //Excepcion X
-                JOptionPane.showMessageDialog(null, ex.getMessage());
+                JOptionPane.showMessageDialog(null, "El saldo debe ser un nÃºmero entero (sin puntos).");
+            } catch (nombreInvalidoException nie) {
+                JOptionPane.showMessageDialog(null, nie.getMessage());
+            } catch (rutInvalidoException rie) {
+                JOptionPane.showMessageDialog(null, rie.getMessage());
+            } catch (Exception ex) { 
+                // cualquier otro error no contemplado
+                JOptionPane.showMessageDialog(null, "Error inesperado: " + ex.getMessage());
             }
         });
 
@@ -398,6 +417,60 @@ public class miVentana extends JFrame {
         	} catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "Asiento inválido. Intente nuevamente.");
                 return;
+            }
+        });
+        
+        btnModificarPasajes.addActionListener(e1 -> {
+            try {
+
+                String rut = JOptionPane.showInputDialog(null, "RUT del cliente:");
+                if (rut == null || rut.isBlank()) return;
+                
+                persona cliente = miEmpresa.obtenerPersonaPorRut(rut);
+                if (cliente == null) {
+                    JOptionPane.showMessageDialog(null, "No existe persona con ese RUT.");
+                    return;
+                }
+
+                String idStr = JOptionPane.showInputDialog(null, "ID del pasaje (ID del viaje):");
+                if (idStr == null || idStr.isBlank()) return;
+                int idPasaje;
+                try {
+                    idPasaje = Integer.parseInt(idStr);
+                } catch (NumberFormatException nfe) {
+                    JOptionPane.showMessageDialog(null, "ID inválido.");
+                    return;
+                }
+                boolean tieneEsePasaje = false;
+                for (pasaje pa : cliente.getPasajes()) {
+                    if (pa.getIdPasaje() == idPasaje) {
+                        tieneEsePasaje = true;
+                        break;
+                    }
+                }
+                if (!tieneEsePasaje) {
+                    JOptionPane.showMessageDialog(null, "El cliente no tiene un pasaje con ID " + idPasaje + ".");
+                    return;
+                }
+
+                String asientoStr = JOptionPane.showInputDialog(null, "Nuevo asiento (vacío para mantener):");
+                Integer nuevoAsiento = null;
+                if (asientoStr != null && !asientoStr.isBlank()) {
+                    try {
+                        nuevoAsiento = Integer.valueOf(asientoStr);
+                    } catch (NumberFormatException nfe) {
+                        JOptionPane.showMessageDialog(null, "Asiento inválido.");
+                        return;
+                    }
+                }
+                String nuevaFecha = JOptionPane.showInputDialog(null, "Nueva fecha (YYYY-MM-DD, vacío para mantener):");
+                if (nuevaFecha != null && nuevaFecha.isBlank()) {
+                    nuevaFecha = null;
+                }
+
+                miEmpresa.modificarPasaje(rut, idPasaje, nuevoAsiento, nuevaFecha);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Error al modificar: " + ex.getMessage());
             }
         });
     }
