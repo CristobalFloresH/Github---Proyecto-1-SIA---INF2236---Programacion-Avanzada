@@ -46,38 +46,38 @@ public class miVentana extends JFrame {
 
         JButton btnRegistro = new JButton("1. Registrarse");
         btnRegistro.setBackground(new Color(240, 240, 240));
-        btnRegistro.setBounds(49, 266, 177, 23);
+        btnRegistro.setBounds(49, 266, 218, 23);
         panelMenu.add(btnRegistro);
 
         JButton btnComprar = new JButton("2. Comprar pasajes");
         btnComprar.setBackground(new Color(240, 240, 240));
-        btnComprar.setBounds(49, 300, 177, 23);
+        btnComprar.setBounds(49, 300, 218, 23);
         panelMenu.add(btnComprar);
 
         JButton btnCancelar = new JButton("3. Cancelar pasaje");
         btnCancelar.setBackground(new Color(240, 240, 240));
-        btnCancelar.setBounds(49, 334, 177, 23);
+        btnCancelar.setBounds(49, 334, 218, 23);
         panelMenu.add(btnCancelar);
 
         JButton btnMostrarPasajes = new JButton("4. Mostrar pasajes");
         btnMostrarPasajes.setBackground(new Color(240, 240, 240));
-        btnMostrarPasajes.setBounds(49, 366, 177, 23);
+        btnMostrarPasajes.setBounds(49, 366, 218, 23);
         panelMenu.add(btnMostrarPasajes);
         
         JButton btnModificarPasajes = new JButton("5. Modificar pasaje");
         btnModificarPasajes.setBackground(new Color(240, 240, 240));
-        btnModificarPasajes.setBounds(49, 401, 177, 23);
+        btnModificarPasajes.setBounds(49, 401, 218, 23);
         panelMenu.add(btnModificarPasajes);
-
-        JButton btnAdministracion = new JButton("6. Administracion");
-        btnAdministracion.setBackground(new Color(240, 240, 240));
-        btnAdministracion.setBounds(49, 435, 177, 23);
-        panelMenu.add(btnAdministracion);
         
-        JButton btnMostrarUsuarios = new JButton("7. Mostrar usuarios");
+        JButton btnMostrarUsuarios = new JButton("6. Mostrar usuarios");
         btnMostrarUsuarios.setBackground(new Color(240, 240, 240));
-        btnMostrarUsuarios.setBounds(49, 469, 177, 23);
+        btnMostrarUsuarios.setBounds(49, 435, 220, 23);
         panelMenu.add(btnMostrarUsuarios);
+
+        JButton btnAdministracion = new JButton("7. Administracion de datos");
+        btnAdministracion.setBackground(new Color(240, 240, 240));
+        btnAdministracion.setBounds(49, 469, 218, 23);
+        panelMenu.add(btnAdministracion);
 
         JButton btnSalir = new JButton("0. Salir");
         btnSalir.setBackground(new Color(240, 240, 240));
@@ -89,7 +89,106 @@ public class miVentana extends JFrame {
         lblBienvenido.setBounds(64, 24, 700, 105);
         panelMenu.add(lblBienvenido);
         contentPane.add(panelMenu, "menu");
-       
+        
+      //|| SEGUNDO PANEL, ADMINISTRACION DE DATOS||
+      //|| SEGUNDO PANEL, ADMINISTRACION DE DATOS||
+      //|| SEGUNDO PANEL, ADMINISTRACION DE DATOS||
+        
+        JPanel panelAdmin = new JPanel();
+        panelAdmin.setLayout(null);
+        panelAdmin.setBackground(new Color(255, 255, 255));
+
+        JLabel lblAdmin = new JLabel("Panel de administración de datos");
+        lblAdmin.setFont(new Font("Yu Gothic Medium", Font.BOLD, 40));
+        lblAdmin.setBounds(22, 11, 718, 101);
+        panelAdmin.add(lblAdmin);
+        
+		JButton btnInformacionBuses = new JButton("1. Mostrar informacion buses");
+		btnInformacionBuses.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnInformacionBuses.setBackground(new Color(240, 240, 240));
+		btnInformacionBuses.setBounds(133, 266, 220, 23);
+		panelAdmin.add(btnInformacionBuses);
+		
+		JButton btnAgregarBuses = new JButton("2. Agregar Buses");
+		btnAgregarBuses.setBackground(new Color(240, 240, 240));
+		btnAgregarBuses.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnAgregarBuses.setBounds(133, 300, 220, 23);
+		panelAdmin.add(btnAgregarBuses);
+		
+		JButton btnModificarBuses = new JButton("3. Modificar Buses");
+		btnModificarBuses.setBackground(new Color(240, 240, 240));
+		btnModificarBuses.setBounds(133, 334, 220, 23);
+		panelAdmin.add(btnModificarBuses);
+		
+		
+		JButton btnEliminarBuses = new JButton("4. Eliminar Buses");
+		btnEliminarBuses.setBackground(new Color(240, 240, 240));
+		btnEliminarBuses.setBounds(133, 368, 220, 23);
+		panelAdmin.add(btnEliminarBuses);
+		
+        JButton btnExportarTxt = new JButton("5. Exportar reporte");
+        btnExportarTxt.setBackground(new Color(240, 240, 240));
+        btnExportarTxt.setBounds(133, 402, 220, 23);
+        panelAdmin.add(btnExportarTxt);
+		
+		JButton btnMostrarInformacionViajes = new JButton("6. Mostrar Informacion Viajes");
+		btnMostrarInformacionViajes.setBackground(new Color(240, 240, 240));
+		btnMostrarInformacionViajes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnMostrarInformacionViajes.setBounds(386, 266, 220, 23);
+		panelAdmin.add(btnMostrarInformacionViajes);
+		
+		JButton btnAgregarViajes = new JButton("7. Agregar Viajes");
+		btnAgregarViajes.setBackground(new Color(240, 240, 240));
+		btnAgregarViajes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnAgregarViajes.setBounds(386, 300, 220, 23);
+		panelAdmin.add(btnAgregarViajes);
+        
+		JButton BtnModificarViajes = new JButton("8. Modificar Viajes");
+		BtnModificarViajes.setBackground(new Color(240, 240, 240));
+		BtnModificarViajes.setBounds(386, 334, 220, 23);
+		panelAdmin.add(BtnModificarViajes);
+		
+		JButton btnEliminarViajes = new JButton("9. Eliminar Viajes");
+		btnEliminarViajes.setBackground(new Color(240, 240, 240));
+		btnEliminarViajes.setBounds(386, 368, 220, 23);
+		panelAdmin.add(btnEliminarViajes);
+
+		
+        JButton btnUmbralBusesViajes = new JButton("10. Umbral Ganancias");
+        btnUmbralBusesViajes.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        	}
+        });
+        btnUmbralBusesViajes.setBackground(new Color(240, 240, 240));
+        btnUmbralBusesViajes.setBounds(386, 402, 220, 23);
+        panelAdmin.add(btnUmbralBusesViajes);
+	
+        
+     // Botón Volver al menú principal
+        JButton btnVolverAdmin = new JButton("0. Volver");
+        btnVolverAdmin.setBackground(new Color(240, 240, 240));
+        btnVolverAdmin.setBounds(260, 437, 220, 23);
+        panelAdmin.add(btnVolverAdmin);
+        
+		contentPane.add(panelAdmin, "administracion");
+		
+		
+		// Navegación: menú principal -> administración
+		btnAdministracion.addActionListener(e1 -> cardLayout.show(contentPane, "administracion"));
+		btnVolverAdmin.addActionListener(e3 -> cardLayout.show(contentPane, "menu"));
+
              
 
         // Panel de Registro
@@ -474,6 +573,7 @@ public class miVentana extends JFrame {
             }
         });
         
+        
         btnCancelar.addActionListener(e1 -> {
             String id = JOptionPane.showInputDialog("Ingrese el ID del viaje a cancelar:");
             if (id == null || id.isBlank()) return; 
@@ -493,5 +593,44 @@ public class miVentana extends JFrame {
             }
         });
 
+
+        btnExportarTxt.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fc = new JFileChooser();
+                fc.setDialogTitle("Guardar reporte (legible)");
+                fc.setSelectedFile(new java.io.File("reporte.txt"));
+                int r = fc.showSaveDialog(null);
+                if (r == JFileChooser.APPROVE_OPTION) {
+                    String path = fc.getSelectedFile().getAbsolutePath();
+                    boolean ok = miEmpresa.exportarReporte(path);
+                    if (ok) {
+                        JOptionPane.showMessageDialog(null, "Reporte exportado en:\n" + path);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No se pudo exportar el reporte.");
+                    }
+                }
+            }
+        });
+        
+        btnUmbralBusesViajes.addActionListener(e3 -> {
+            try {
+                String texto = JOptionPane.showInputDialog("Ingrese el umbral de ganancias");
+                if (texto == null || texto.trim().isEmpty() == true) {
+                    JOptionPane.showMessageDialog(this, "Ingrese un umbral (número).");
+                    return;
+                }
+
+                float umbral = Float.parseFloat(texto.replace(",", ".").trim());
+
+
+                JScrollPane scroll = miEmpresa.construirScrollBusesYViajesGananciaMayor(umbral);
+                JOptionPane.showMessageDialog(this, scroll, "Reporte de Ganancias", JOptionPane.INFORMATION_MESSAGE);
+
+            } catch (NumberFormatException nfe) {
+                JOptionPane.showMessageDialog(this, "El umbral debe ser un número (usa punto o coma).");
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Error inesperado: " + ex.getMessage());
+            }
+        });
     }
 }
