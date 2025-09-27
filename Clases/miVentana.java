@@ -104,7 +104,7 @@ public class miVentana extends JFrame {
 			}
 		});
 		btnInformacionBuses.setBackground(new Color(240, 240, 240));
-		btnInformacionBuses.setBounds(22, 266, 220, 23);
+		btnInformacionBuses.setBounds(22, 196, 220, 23);
 		panelAdmin.add(btnInformacionBuses);
 		
 		JButton btnAgregarBuses = new JButton("2. Agregar Buses");
@@ -113,23 +113,23 @@ public class miVentana extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnAgregarBuses.setBounds(22, 300, 220, 23);
+		btnAgregarBuses.setBounds(22, 230, 220, 23);
 		panelAdmin.add(btnAgregarBuses);
 		
 		JButton btnModificarBuses = new JButton("3. Modificar Buses");
 		btnModificarBuses.setBackground(new Color(240, 240, 240));
-		btnModificarBuses.setBounds(22, 334, 220, 23);
+		btnModificarBuses.setBounds(22, 264, 220, 23);
 		panelAdmin.add(btnModificarBuses);
 		
 		
 		JButton btnEliminarBuses = new JButton("4. Eliminar Buses");
 		btnEliminarBuses.setBackground(new Color(240, 240, 240));
-		btnEliminarBuses.setBounds(22, 368, 220, 23);
+		btnEliminarBuses.setBounds(22, 298, 220, 23);
 		panelAdmin.add(btnEliminarBuses);
 		
         JButton btnExportarTxt = new JButton("5. Exportar reporte");
         btnExportarTxt.setBackground(new Color(240, 240, 240));
-        btnExportarTxt.setBounds(22, 402, 220, 23);
+        btnExportarTxt.setBounds(22, 332, 220, 23);
         panelAdmin.add(btnExportarTxt);
 		
 		JButton btnMostrarInformacionViajes = new JButton("6. Mostrar Informacion Viajes");
@@ -138,7 +138,7 @@ public class miVentana extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnMostrarInformacionViajes.setBounds(260, 266, 220, 23);
+		btnMostrarInformacionViajes.setBounds(260, 196, 220, 23);
 		panelAdmin.add(btnMostrarInformacionViajes);
 		
 		JButton btnAgregarViajes = new JButton("7. Agregar Viajes");
@@ -147,17 +147,17 @@ public class miVentana extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnAgregarViajes.setBounds(260, 300, 220, 23);
+		btnAgregarViajes.setBounds(260, 230, 220, 23);
 		panelAdmin.add(btnAgregarViajes);
         
 		JButton BtnModificarViajes = new JButton("8. Modificar Viajes");
 		BtnModificarViajes.setBackground(new Color(240, 240, 240));
-		BtnModificarViajes.setBounds(260, 334, 220, 23);
+		BtnModificarViajes.setBounds(260, 266, 220, 23);
 		panelAdmin.add(BtnModificarViajes);
 		
 		JButton btnEliminarViajes = new JButton("9. Eliminar Viajes");
 		btnEliminarViajes.setBackground(new Color(240, 240, 240));
-		btnEliminarViajes.setBounds(260, 368, 220, 23);
+		btnEliminarViajes.setBounds(260, 300, 220, 23);
 		panelAdmin.add(btnEliminarViajes);
 
 		
@@ -167,37 +167,42 @@ public class miVentana extends JFrame {
         	}
         });
         btnUmbralBusesViajes.setBackground(new Color(240, 240, 240));
-        btnUmbralBusesViajes.setBounds(260, 402, 220, 23);
+        btnUmbralBusesViajes.setBounds(260, 334, 220, 23);
         panelAdmin.add(btnUmbralBusesViajes);
 	
         JButton btnMostrarUsuarios = new JButton("11. Mostrar usuarios");
         btnMostrarUsuarios.setBackground(new Color(240, 240, 240));
-        btnMostrarUsuarios.setBounds(490, 266, 220, 23);
+        btnMostrarUsuarios.setBounds(490, 196, 220, 23);
         panelAdmin.add(btnMostrarUsuarios);
         
 		JButton btnAgregarUsuarios = new JButton("12. Agregar Usuarios");
 		btnAgregarUsuarios.setBackground(new Color(240, 240, 240));
-		btnAgregarUsuarios.setBounds(490, 300, 220, 23);
+		btnAgregarUsuarios.setBounds(490, 230, 220, 23);
 		panelAdmin.add(btnAgregarUsuarios);
 		
 		JButton btnNewButton = new JButton("13. Modificar Usuarios");
 		btnNewButton.setBackground(new Color(240, 240, 240));
-		btnNewButton.setBounds(490, 334, 220, 23);
+		btnNewButton.setBounds(490, 266, 220, 23);
 		panelAdmin.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("14. Eliminar Usuarios");
 		btnNewButton_1.setBackground(new Color(240, 240, 240));
-		btnNewButton_1.setBounds(490, 368, 220, 23);
+		btnNewButton_1.setBounds(490, 300, 220, 23);
 		panelAdmin.add(btnNewButton_1);
 		
         
      // Botón Volver al menú principal
         JButton btnVolverAdmin = new JButton("0. Volver");
         btnVolverAdmin.setBackground(new Color(240, 240, 240));
-        btnVolverAdmin.setBounds(490, 402, 220, 23);
+        btnVolverAdmin.setBounds(260, 379, 220, 23);
         panelAdmin.add(btnVolverAdmin);
         
 		contentPane.add(panelAdmin, "administracion");
+		
+		JButton btnBuscarGeneral = new JButton("15. Buscar General");
+		btnBuscarGeneral.setBackground(UIManager.getColor("Button.background"));
+		btnBuscarGeneral.setBounds(490, 334, 220, 23);
+		panelAdmin.add(btnBuscarGeneral);
 	
 		
 		// Navegación: menú principal -> administración
@@ -256,15 +261,20 @@ public class miVentana extends JFrame {
                 String nombre = txtNombre.getText();
                 String saldoStr = txtSaldo.getText();
 
-                // Validaciones con excepciones personalizadas
-                if (nombre == null || nombre.trim().isEmpty() == true || nombre.matches("[a-zA-Z ]+") == false) {
+                if (nombre == null || nombre.trim().isEmpty() || !nombre.matches("[a-zA-Z ]+")) {
                     throw new nombreInvalidoException("El nombre solo puede contener letras y espacios.");
                 }
-                if (rut == null || rut.trim().isEmpty() == true || rut.matches("\\d{7,8}-[\\dkK]") == false) {
+                if (rut == null || rut.trim().isEmpty() || !rut.matches("\\d{7,8}-[\\dkK]")) {
                     throw new rutInvalidoException("El RUT debe tener formato 12345678-9.");
                 }
 
-                int saldo = Integer.parseInt(saldoStr); // si falla, cae en NumberFormatException
+                int saldo = Integer.parseInt(saldoStr); 
+
+ 
+                if (miEmpresa.existeRut(rut.trim())) {
+                    JOptionPane.showMessageDialog(null, "Ya existe una persona con el RUT " + rut + ".");
+                    return;
+                }
 
                 persona p = new persona(nombre.trim(), rut.trim(), saldo);
                 miEmpresa.registrarPersona(p);
@@ -276,13 +286,12 @@ public class miVentana extends JFrame {
                 cardLayout.show(contentPane, "menu");
 
             } catch (NumberFormatException nfe) {
-                JOptionPane.showMessageDialog(null, "El saldo debe ser un nÃºmero entero (sin puntos).");
+                JOptionPane.showMessageDialog(null, "El saldo debe ser un número entero (sin puntos).");
             } catch (nombreInvalidoException nie) {
                 JOptionPane.showMessageDialog(null, nie.getMessage());
             } catch (rutInvalidoException rie) {
                 JOptionPane.showMessageDialog(null, rie.getMessage());
-            } catch (Exception ex) { 
-                // cualquier otro error no contemplado
+            } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Error inesperado: " + ex.getMessage());
             }
         });
@@ -647,5 +656,235 @@ public class miVentana extends JFrame {
                 JOptionPane.showMessageDialog(this, "Error inesperado: " + ex.getMessage());
             }
         });
+        
+     // ==== BUSES ====
+
+     // 1) Agregar Bus
+     btnAgregarBuses.addActionListener(e1 -> {
+         try {
+             String patente = JOptionPane.showInputDialog(this, "Patente del bus:");
+             if (patente == null || patente.isBlank()) return;
+
+             String capacidadStr = JOptionPane.showInputDialog(this, "Capacidad (entero):");
+             if (capacidadStr == null || capacidadStr.isBlank()) return;
+             int capacidad = Integer.parseInt(capacidadStr.trim());
+
+             String disponibilidadStr = JOptionPane.showInputDialog(this, "Disponibilidad (entero):");
+             if (disponibilidadStr == null || disponibilidadStr.isBlank()) return;
+             int disponibilidad = Integer.parseInt(disponibilidadStr.trim());
+
+             String tipoStr = JOptionPane.showInputDialog(this, "Tipo (entero):");
+             if (tipoStr == null || tipoStr.isBlank()) return;
+             int tipo = Integer.parseInt(tipoStr.trim());
+
+             bus nuevoBus = new bus(capacidad, patente.trim(), disponibilidad, tipo);
+             miEmpresa.agregarBus(nuevoBus);
+         } catch (NumberFormatException ex) {
+             JOptionPane.showMessageDialog(this, "Valores numéricos inválidos.");
+         }
+     });
+
+     // 2) Modificar Bus
+     btnModificarBuses.addActionListener(e1 -> {
+         try {
+             String patente = JOptionPane.showInputDialog(this, "Patente del bus a modificar:");
+             if (patente == null || patente.isBlank()) return;
+
+             bus busExistente = miEmpresa.obtenerBusPorPatente(patente.trim());
+             if (busExistente == null) {
+                 JOptionPane.showMessageDialog(this, "No se encontró un bus con esa patente.");
+                 return;
+             }
+
+             String capacidadStr = JOptionPane.showInputDialog(this, "Nueva capacidad (entero):", busExistente.getCapacidad());
+             if (capacidadStr == null || capacidadStr.isBlank()) return;
+             int capacidad = Integer.parseInt(capacidadStr.trim());
+
+             String disponibilidadStr = JOptionPane.showInputDialog(this, "Nueva disponibilidad (entero):", busExistente.getDisponibilidad());
+             if (disponibilidadStr == null || disponibilidadStr.isBlank()) return;
+             int disponibilidad = Integer.parseInt(disponibilidadStr.trim());
+
+             String tipoStr = JOptionPane.showInputDialog(this, "Nuevo tipo (entero):", busExistente.getTipo());
+             if (tipoStr == null || tipoStr.isBlank()) return;
+             int tipo = Integer.parseInt(tipoStr.trim());
+
+             busExistente.setCapacidad(capacidad);
+             busExistente.setDisponibilidad(disponibilidad);
+             busExistente.setTipo(tipo);
+
+             JOptionPane.showMessageDialog(this, "Bus modificado: " + patente.trim());
+         } catch (NumberFormatException ex) {
+             JOptionPane.showMessageDialog(this, "Valores numéricos inválidos.");
+         }
+     });
+
+     // 3) Eliminar Bus
+     btnEliminarBuses.addActionListener(e1 -> {
+         String patente = JOptionPane.showInputDialog(this, "Patente del bus a eliminar:");
+         if (patente == null || patente.isBlank()) return;
+         miEmpresa.eliminarBus(patente.trim());
+     });
+
+
+     // ==== VIAJES ====
+
+     // 4) Agregar Viaje
+     btnAgregarViajes.addActionListener(e1 -> {
+         try {
+             String idStr = JOptionPane.showInputDialog(this, "ID del viaje (entero):");
+             if (idStr == null || idStr.isBlank()) return;
+             int idViaje = Integer.parseInt(idStr.trim());
+
+             String costoViajeStr = JOptionPane.showInputDialog(this, "Costo del viaje (entero):");
+             if (costoViajeStr == null || costoViajeStr.isBlank()) return;
+             int costoViaje = Integer.parseInt(costoViajeStr.trim());
+
+             String costoEmpresaStr = JOptionPane.showInputDialog(this, "Costo para la empresa (entero):");
+             if (costoEmpresaStr == null || costoEmpresaStr.isBlank()) return;
+             int costoEmpresa = Integer.parseInt(costoEmpresaStr.trim());
+
+             String patenteBus = JOptionPane.showInputDialog(this, "Patente del bus:");
+             if (patenteBus == null || patenteBus.isBlank()) return;
+
+             String origen = JOptionPane.showInputDialog(this, "Origen:");
+             if (origen == null || origen.isBlank()) return;
+
+             String destino = JOptionPane.showInputDialog(this, "Destino:");
+             if (destino == null || destino.isBlank()) return;
+
+             String horaSalida = JOptionPane.showInputDialog(this, "Hora de salida (HH:MM):");
+             if (horaSalida == null || horaSalida.isBlank()) return;
+
+             String horaLlegada = JOptionPane.showInputDialog(this, "Hora de llegada (HH:MM):");
+             if (horaLlegada == null || horaLlegada.isBlank()) return;
+
+             viaje nuevoViaje = new viaje(idViaje, costoViaje, costoEmpresa,
+                                          patenteBus.trim(), origen.trim(), destino.trim(),
+                                          horaSalida.trim(), horaLlegada.trim());
+             miEmpresa.agregarViaje(nuevoViaje);
+         } catch (NumberFormatException ex) {
+             JOptionPane.showMessageDialog(this, "Valores numéricos inválidos.");
+         }
+     });
+
+     // 5) Modificar Viaje
+     BtnModificarViajes.addActionListener(e1 -> {
+         try {
+             String idStr = JOptionPane.showInputDialog(this, "ID del viaje a modificar:");
+             if (idStr == null || idStr.isBlank()) return;
+             int idViaje = Integer.parseInt(idStr.trim());
+
+             viaje viajeExistente = miEmpresa.obtenerViajePorId(idViaje);
+             if (viajeExistente == null) {
+                 JOptionPane.showMessageDialog(this, "No se encontró un viaje con ID " + idViaje);
+                 return;
+             }
+
+             String nuevoCostoStr = JOptionPane.showInputDialog(this, "Nuevo costo (entero):", viajeExistente.getCostoViaje());
+             if (nuevoCostoStr == null || nuevoCostoStr.isBlank()) return;
+             int nuevoCosto = Integer.parseInt(nuevoCostoStr.trim());
+
+             String nuevaPatente = JOptionPane.showInputDialog(this, "Nueva patente:", viajeExistente.getPatente());
+             if (nuevaPatente == null || nuevaPatente.isBlank()) return;
+
+             String nuevoOrigen = JOptionPane.showInputDialog(this, "Nuevo origen:", viajeExistente.getOrigen());
+             if (nuevoOrigen == null || nuevoOrigen.isBlank()) return;
+
+             String nuevoDestino = JOptionPane.showInputDialog(this, "Nuevo destino:", viajeExistente.getDestinoFinal());
+             if (nuevoDestino == null || nuevoDestino.isBlank()) return;
+
+             String nuevaSalida = JOptionPane.showInputDialog(this, "Nueva hora de salida (HH:MM):", viajeExistente.getHoraSalida());
+             if (nuevaSalida == null || nuevaSalida.isBlank()) return;
+
+             String nuevaLlegada = JOptionPane.showInputDialog(this, "Nueva hora de llegada (HH:MM):", viajeExistente.getHoraLlegada());
+             if (nuevaLlegada == null || nuevaLlegada.isBlank()) return;
+
+             miEmpresa.modificarViaje(idViaje, nuevoCosto, nuevaPatente.trim(),
+                                      nuevoOrigen.trim(), nuevoDestino.trim(),
+                                      nuevaSalida.trim(), nuevaLlegada.trim());
+         } catch (NumberFormatException ex) {
+             JOptionPane.showMessageDialog(this, "ID o costo inválido.");
+         }
+     });
+
+     // 6) Eliminar Viaje
+     btnEliminarViajes.addActionListener(e1 -> {
+         try {
+             String idStr = JOptionPane.showInputDialog(this, "ID del viaje a eliminar:");
+             if (idStr == null || idStr.isBlank()) return;
+             int idViaje = Integer.parseInt(idStr.trim());
+             miEmpresa.eliminarViaje(idViaje);
+         } catch (NumberFormatException ex) {
+             JOptionPane.showMessageDialog(this, "ID inválido.");
+         }
+     });
+
+
+     // ==== PERSONAS ====
+
+     // 7) Agregar Persona
+     btnAgregarUsuarios.addActionListener(e1 -> {
+         try {
+             String rut = JOptionPane.showInputDialog(this, "RUT (12345678-9):");
+             if (rut == null || rut.isBlank()) return;
+
+             String nombre = JOptionPane.showInputDialog(this, "Nombre:");
+             if (nombre == null || nombre.isBlank()) return;
+
+             String saldoStr = JOptionPane.showInputDialog(this, "Saldo (entero):");
+             if (saldoStr == null || saldoStr.isBlank()) return;
+             int saldo = Integer.parseInt(saldoStr.trim());
+
+             persona nuevaPersona = new persona(nombre.trim(), rut.trim(), saldo);
+             miEmpresa.agregarPersona(nuevaPersona);
+         } catch (NumberFormatException ex) {
+             JOptionPane.showMessageDialog(this, "Saldo inválido.");
+         }
+     });
+
+     // 8) Modificar Persona
+     btnNewButton.addActionListener(e1 -> { // "13. Modificar Usuarios"
+         try {
+             String rut = JOptionPane.showInputDialog(this, "RUT de la persona a modificar:");
+             if (rut == null || rut.isBlank()) return;
+
+             persona personaExistente = miEmpresa.obtenerPersonaPorRut(rut.trim());
+             if (personaExistente == null) {
+                 JOptionPane.showMessageDialog(this, "No se encontró persona con ese RUT.");
+                 return;
+             }
+
+             String nuevoNombre = JOptionPane.showInputDialog(this, "Nuevo nombre:", personaExistente.getNombre());
+             if (nuevoNombre == null || nuevoNombre.isBlank()) return;
+
+             String nuevoSaldoStr = JOptionPane.showInputDialog(this, "Nuevo saldo (entero):", personaExistente.getSaldoDisponible());
+             if (nuevoSaldoStr == null || nuevoSaldoStr.isBlank()) return;
+             int nuevoSaldo = Integer.parseInt(nuevoSaldoStr.trim());
+
+             miEmpresa.modificarPersona(rut.trim(), nuevoNombre.trim(), nuevoSaldo);
+         } catch (NumberFormatException ex) {
+             JOptionPane.showMessageDialog(this, "Saldo inválido.");
+         }
+     });
+
+     // 9) Eliminar Persona
+     btnNewButton_1.addActionListener(e1 -> { //
+         String rut = JOptionPane.showInputDialog(this, "RUT de la persona a eliminar:");
+         if (rut == null || rut.isBlank()) return;
+         miEmpresa.eliminarPersona(rut.trim());
+     });
+
+     btnInformacionBuses.addActionListener(e1 -> {
+    	    JScrollPane scroll = miEmpresa.mostrarBusesComoScroll();
+    	    JOptionPane.showMessageDialog(this, scroll, "Buses", JOptionPane.INFORMATION_MESSAGE);
+    	});
+
+    btnMostrarInformacionViajes.addActionListener(e1 -> {
+    	    JScrollPane scroll = miEmpresa.mostrarViajesComoScroll();
+    	    JOptionPane.showMessageDialog(this, scroll, "Viajes", JOptionPane.INFORMATION_MESSAGE);
+    	});
+    
+         
     }
+    
 }
