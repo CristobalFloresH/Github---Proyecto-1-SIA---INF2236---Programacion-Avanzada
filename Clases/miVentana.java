@@ -69,7 +69,7 @@ public class miVentana extends JFrame {
         btnModificarPasajes.setBounds(49, 401, 218, 23);
         panelMenu.add(btnModificarPasajes);
 
-        JButton btnAdministracion = new JButton("7. Administracion de datos");
+        JButton btnAdministracion = new JButton("6. Administracion de datos");
         btnAdministracion.setBackground(new Color(240, 240, 240));
         btnAdministracion.setBounds(49, 435, 218, 23);
         panelMenu.add(btnAdministracion);
